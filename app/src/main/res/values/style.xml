@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- res/values/styles.xml -->
+
+
+
+        <!-- Base application theme -->
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+            <item name="android:buttonStyle">@style/Widget.AppCompat.Button</item>
+            <item name="colorPrimary">#000000</item> <!-- Dark Black -->
+            <item name="colorPrimaryDark">#000000</item> <!-- Dark Black for status bar -->
+            <item name="colorAccent">#FF4081</item> <!-- Accent color -->
+            <item name="android:windowBackground">@android:color/black</item> <!-- Background color -->
+            <item name="android:textColorPrimary">@android:color/white</item> <!-- Text color for primary content -->
+            <item name="android:textColorSecondary">@android:color/darker_gray</item> <!-- Text color for secondary content -->
+            <item name="android:windowLightStatusBar">true</item> <!-- Light status bar icons -->
+            <item name="android:statusBarColor">#000000</item> <!-- Status bar color -->
+            <item name="android:navigationBarColor">#000000</item> <!-- Navigation bar color -->
+        </style>
+
+
+
+
+</resources>

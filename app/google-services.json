@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "861737925906",
+    "project_id": "login-register-firebase-56982",
+    "storage_bucket": "login-register-firebase-56982.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:861737925906:android:f5b7fdc5f1bf573d2f87cb",
+        "android_client_info": {
+          "package_name": "com.aman.loginapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcznZaiGjerll3dql7oFtfDPfO5gDhsTo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

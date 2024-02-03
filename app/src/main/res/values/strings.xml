@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Login App</string>
+    <string name="login">Login</string>
+    <string name="email">email</string>
+    <string name="password">password</string>
+    <string name="register">Register</string>
+    <string name="click_to_login">Click to Login</string>
+    <string name="click_to_register">Click to Register</string>
+    <string name="logout">Logout</string>
+    <string name="healthify">Healthify</string>
+    <string name="DietifyMe" />
+    <string name="dietify">Dietify</string>
+    <string name="dietifyMe">\n</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

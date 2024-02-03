@@ -1,0 +1,81 @@
+package com.aman.loginapp;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class lunch extends AppCompatActivity {
+
+
+    private static final String TAG = "lunchActivity";
+    private RecyclerView recyclerView;
+    private lunchAdapter adapter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_lunch);
+
+        // Initialize Firebase in your application (initialize it only once)
+        FirebaseApp.initializeApp(this);
+
+        // Access a Cloud Firestore instance
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Initialize RecyclerView
+        recyclerView = findViewById(R.id.recyclerlunch); // Replace with the actual ID of your RecyclerView
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Fetch data from Firestore
+        db.collection("lunchitem") // Replace with your actual collection name
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        List<lunchItem> itemList = new ArrayList<>();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            // Assuming your Firestore document fields are "itemName" and "imageUrl"
+                            String itemName = document.getString("itemName");
+                            String imageUrl = document.getString("imageUrl");
+
+                            lunchItem item = new lunchItem(itemName, imageUrl);
+                            itemList.add(item);
+                        }
+
+                        // Create and set up the RecyclerView adapter
+                        adapter = new lunchAdapter(itemList);
+                        recyclerView.setAdapter(adapter);
+                    } else {
+                        Log.w(TAG, "Error getting documents.", task.getException());
+                    }
+                });
+
+        // Find the ImageView
+        ImageView lunchimagev = findViewById(R.id.lunchimagev);
+
+        // Set OnClickListener for the ImageView
+        lunchimagev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Handle the click event, e.g., navigate back to NormalDiet activity
+                Intent intent = new Intent(lunch.this, normaldiet.class);
+                startActivity(intent);
+            }
+        });
+    }
+}
+
