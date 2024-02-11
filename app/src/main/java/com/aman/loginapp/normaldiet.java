@@ -52,8 +52,11 @@ public class normaldiet extends AppCompatActivity {
         dietCategories.add(new DietCategory("Breakfast", R.drawable.breakfast, breakfast.class));
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         dietCategories.add(new DietCategory("Lunch", R.drawable.lunch, lunch.class));
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         dietCategories.add(new DietCategory("Pre-workout", R.drawable.preworkout, Bmi.class));
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         dietCategories.add(new DietCategory("Post-workout", R.drawable.postworkout, Bmi.class));
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
         dietPlanAdapter = new DietPlanAdapter(dietCategories);
         recyclerViewDietPlan.setAdapter(dietPlanAdapter);

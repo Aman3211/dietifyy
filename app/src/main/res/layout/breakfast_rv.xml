@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="30dp"
+    android:padding="10dp"
     android:layout_marginTop="10dp"
     android:layout_marginRight="10dp"
     android:layout_marginLeft="10dp"
-    android:background="@drawable/card_shape">
+    android:background="#ffffff">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"

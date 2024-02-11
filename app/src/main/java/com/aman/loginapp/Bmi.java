@@ -96,6 +96,7 @@ public class Bmi extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 intheight = progress;
                 mcurrentheight.setText(String.valueOf(intheight));
+                mintprogress = String.valueOf(intheight); // Update mintprogress
             }
 
             @Override
@@ -108,7 +109,6 @@ public class Bmi extends AppCompatActivity {
                 // No action needed here
             }
         });
-
 
 
 
@@ -158,6 +158,7 @@ public class Bmi extends AppCompatActivity {
                 if (intheight < mseekbarforheight.getMax()) {
                     intheight = intheight + 1;
                     mseekbarforheight.setProgress(intheight);
+                    mintprogress = String.valueOf(intheight); // Update mintprogress
                 }
             }
         });
@@ -168,10 +169,10 @@ public class Bmi extends AppCompatActivity {
                 if (intheight > 0) {
                     intheight = intheight - 1;
                     mseekbarforheight.setProgress(intheight);
+                    mintprogress = String.valueOf(intheight); // Update mintprogress
                 }
             }
         });
-
 
 
 

@@ -6,7 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +30,8 @@ public class lunch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lunch);
 
+        hideActionBar();
+
         // Initialize Firebase in your application (initialize it only once)
         FirebaseApp.initializeApp(this);
 
@@ -42,7 +43,7 @@ public class lunch extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Fetch data from Firestore
-        db.collection("lunchitem") // Replace with your actual collection name
+        db.collection("lunchitem")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -57,12 +58,15 @@ public class lunch extends AppCompatActivity {
                         }
 
                         // Create and set up the RecyclerView adapter
-                        adapter = new lunchAdapter(itemList);
+                        adapter = new lunchAdapter(this, itemList); // Pass 'this' as the context
                         recyclerView.setAdapter(adapter);
                     } else {
                         Log.w(TAG, "Error getting documents.", task.getException());
                     }
                 });
+
+
+
 
         // Find the ImageView
         ImageView lunchimagev = findViewById(R.id.lunchimagev);
@@ -76,6 +80,13 @@ public class lunch extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-}
+
+    } private void hideActionBar() {
+        // Get the support action bar
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            // Hide the action bar
+            actionBar.hide();
+        }}}
+
 

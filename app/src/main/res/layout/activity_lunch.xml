@@ -4,8 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#251D1D"
+    android:background="#ffffff"
+
     tools:context=".breakfast">
+
 
     <ImageView
         android:id="@+id/lunchimagev"
@@ -20,6 +22,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/back_icon" />
 
+
     <TextView
         android:id="@+id/lunchTitleTextv"
         android:layout_width="wrap_content"
@@ -30,8 +33,9 @@
         app:layout_constraintBottom_toBottomOf="@+id/lunchimagev"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.11"
-        android:textColor="@color/white"
-        android:textSize="22sp"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:fontFamily="@font/popins"
         app:layout_constraintStart_toEndOf="@+id/lunchimagev"
         app:layout_constraintTop_toTopOf="@+id/lunchimagev" />
 
@@ -42,7 +46,9 @@
         android:id="@+id/recyclerlunch"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:listitem="@layout/lunch_rv"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lunchimagev" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

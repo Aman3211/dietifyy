@@ -1,5 +1,6 @@
 package com.aman.loginapp;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,20 @@ import java.util.List;
 
 public class breakfastAdapter extends RecyclerView.Adapter<breakfastAdapter.ViewHolder> {
     private List<BreakfastItem> itemList;
+    private static OnItemClickListener listener;
 
     public breakfastAdapter(List<BreakfastItem> itemList) {
         this.itemList = itemList;
+
+    }
+    // Interface for click events
+    public interface OnItemClickListener {
+        void onItemConsumed(int position, String documentId);
+    }
+
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -31,12 +43,20 @@ public class breakfastAdapter extends RecyclerView.Adapter<breakfastAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         BreakfastItem item = itemList.get(position);
         holder.bind(item);
+
+
     }
+
 
     @Override
     public int getItemCount() {
+
         return itemList.size();
     }
+    public List<BreakfastItem> getItemList() {
+        return itemList;
+    }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageView;
@@ -54,6 +74,8 @@ public class breakfastAdapter extends RecyclerView.Adapter<breakfastAdapter.View
             Protien = itemView.findViewById(R.id.Protien);
             Carbs = itemView.findViewById(R.id.Carbs);
             Fat = itemView.findViewById(R.id.Fat);
+
+            // Set up the click listener for the item
         }
 
         public void bind(BreakfastItem item) {
@@ -65,13 +87,37 @@ public class breakfastAdapter extends RecyclerView.Adapter<breakfastAdapter.View
                     ) // Optional error image
                     .into(imageView);
 
+            itemView.setOnClickListener(v -> {
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        String documentId = item.getDocumentId();
+                        listener.onItemConsumed(position, documentId);
+                    }
+                }
+            });
+
+
+
+
+
+
+
+
             textView.setText(item.getItemName());
             Calories.setText(item.getcalories());
             Protien.setText(item.getprotien());
             Carbs.setText(item.getcarbs());
             Fat.setText(item.getfat());
+            // Set the background color based on consumption status
+            if (item.isConsumed()) {
+                itemView.setBackgroundColor(Color.LTGRAY);
+            } else {
+                itemView.setBackgroundColor(Color.WHITE);
+            }
         }
-    }
+        }
+
 
     // Replace this with the actual method for loading images using your preferred library
     private static void loadImageUsingLibrary(String imageUrl, ImageView imageView) {

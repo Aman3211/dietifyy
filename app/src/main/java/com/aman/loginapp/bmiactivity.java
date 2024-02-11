@@ -1,17 +1,5 @@
 package com.aman.loginapp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import android.os.Bundle;
-import android.util.Log;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -27,7 +15,16 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class bmiactivity extends AppCompatActivity {
 
@@ -136,7 +133,7 @@ public class bmiactivity extends AppCompatActivity {
         else if(intbmi>30 && intbmi<34.9)
         {
             mbmicategory.setText("OBESE   (30 To 34.9)");
-             mbackground.setBackgroundColor(Color.RED);
+            mbackground.setBackgroundColor(Color.RED);
             mimageview.setImageResource(R.drawable.crosss);
             Obsedietbutton.setVisibility(View.VISIBLE);
             Normaldietbutton.setVisibility(View.GONE);
@@ -254,16 +251,15 @@ public class bmiactivity extends AppCompatActivity {
         finish();
     }
 
-        public void logout(){
+    public void logout(){
 
-            Log.d("Logout", "Logging out and going to login page");
-            FirebaseAuth.getInstance().signOut();
-            Intent intent = new Intent(this, Login.class);
-            intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
-        }
-
-
+        Log.d("Logout", "Logging out and going to login page");
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(this, Login.class);
+        intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 
+
+}

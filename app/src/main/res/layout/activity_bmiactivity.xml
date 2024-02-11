@@ -38,6 +38,18 @@
             android:layout_centerHorizontal="true"></TextView>
 
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your BMI Category Is"
+            android:textColor="#FFFFFF"
+            android:fontFamily="@font/raleway"
+            android:id="@+id/bmicategory"
+            android:layout_marginTop="15dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/bmiChangeTextView"
+            android:textSize="25sp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -49,21 +61,26 @@
             android:textStyle="bold"
             android:layout_centerHorizontal="true"
             android:id="@+id/genderdisplay"
-            android:textColor="#FFFFFF"></TextView>
+            android:textColor="#FFFFFF" />
+
+
 
 
         <TextView
+            android:id="@+id/bmiChangeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Your BMI Category Is"
-            android:textColor="#FFFFFF"
-            android:fontFamily="@font/raleway"
-            android:id="@+id/bmicategory"
-            android:layout_marginTop="15dp"
+            android:layout_below="@+id/genderdisplay"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/genderdisplay"
-            android:textSize="25sp"
-            android:textStyle="bold"></TextView>
+            android:layout_marginTop="16dp"
+            android:text=""
+            android:textColor="#FF4081"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+
+
+
     </RelativeLayout>
 
 
@@ -84,62 +101,63 @@
 
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/recalculatebmi"
         android:layout_centerInParent="true"
-        android:text="Diet Plan"
+        android:text="Normal Diet Plan"
         android:textStyle="bold"
+
         android:id="@+id/Normaldietbutton"
         android:textColor="@color/white"
-        android:background="#00FF00"
+        android:background="#FF0000"
         android:layout_marginTop="50dp"></Button>
 
     <Button
         android:id="@+id/EObsedietbutton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/recalculatebmi"
         android:layout_centerInParent="true"
         android:layout_marginTop="50dp"
         android:background="#FF0000"
-        android:text="Diet Plan"
+        android:text="Extremely Obse Diet Plan"
         android:textColor="@color/white"
         android:textStyle="bold"></Button>
 
     <Button
         android:id="@+id/Obsedietbutton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/recalculatebmi"
         android:layout_centerInParent="true"
         android:layout_marginTop="50dp"
         android:background="#FF0000"
-        android:text="Diet Plan"
+        android:text="Obse Diet Plan"
         android:textColor="@color/white"
         android:textStyle="bold"></Button>
 
     <Button
         android:id="@+id/UnderWdietbutton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/recalculatebmi"
         android:layout_centerInParent="true"
         android:layout_marginTop="50dp"
         android:background="#FF0000"
-        android:text="Diet Plan"
+        android:text="UnderWeight Diet Plan"
         android:textColor="@color/white"
         android:textStyle="bold"></Button>
 
     <Button
         android:id="@+id/OverWdietbutton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/recalculatebmi"
         android:layout_centerInParent="true"
         android:layout_marginTop="50dp"
         android:background="#FF0000"
-        android:text="Diet Plan"
+        android:text="OverWeight Diet Plan"
         android:textColor="@color/white"
         android:textStyle="bold"></Button>
 

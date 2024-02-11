@@ -15,12 +15,17 @@
         android:theme="@style/Theme.Material3.Dark"
         tools:targetApi="31">
         <activity
+            android:name=".lunchdetaill"
+            android:exported="false" />
+        <activity
+            android:name=".lunchdetail"
+            android:exported="false" />
+        <activity
             android:name=".lunch"
             android:exported="false" />
         <activity
             android:name=".breakfast"
             android:exported="false" />
-
         <activity
             android:name=".normaldiet"
             android:exported="false" />
@@ -32,8 +37,7 @@
             android:exported="false" />
         <activity
             android:name=".splash"
-            android:exported="false"
-            />
+            android:exported="false" />
         <activity
             android:name=".Register"
             android:exported="true"

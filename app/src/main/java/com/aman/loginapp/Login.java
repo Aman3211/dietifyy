@@ -48,8 +48,9 @@ public class Login extends AppCompatActivity {
                         .edit()
                         .putBoolean("isFirstLogin", false)
                         .apply();
-
+                String email = String.valueOf(editTextEmail.getText());
                 Intent intent = new Intent(getApplicationContext(), Bmi.class);
+                intent.putExtra("email", email);
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 finish();
@@ -139,6 +140,7 @@ public class Login extends AppCompatActivity {
                                                                }
                                                            }
                                                        });
+
                                            }
 
         });

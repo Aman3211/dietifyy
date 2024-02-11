@@ -1,9 +1,7 @@
 package com.aman.loginapp;
 
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
-import android.app.Activity; // Import Activity class
-import android.util.Log;
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +17,10 @@ import java.util.List;
 
 public class lunchAdapter extends RecyclerView.Adapter<lunchAdapter.ViewHolder> {
     private List<lunchItem> itemList;
+    private Context context;
 
-    public lunchAdapter(List<lunchItem> itemList) {
+    public lunchAdapter(Context context, List<lunchItem> itemList) {
+        this.context = context;
         this.itemList = itemList;
     }
 
@@ -35,6 +35,20 @@ public class lunchAdapter extends RecyclerView.Adapter<lunchAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         lunchItem item = itemList.get(position);
         holder.bind(item);
+
+        // Set OnClickListener for the forward ImageView
+        holder.forward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Handle click event for the forward ImageView
+                // For example, navigate to lunchdetail activity with data
+                Intent intent = new Intent(context, lunchdetail.class);
+                // Put the image URL and title as extras
+                intent.putExtra("imageUrl", item.getImageUrl());
+                intent.putExtra("itemName", item.getItemName());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -45,12 +59,15 @@ public class lunchAdapter extends RecyclerView.Adapter<lunchAdapter.ViewHolder> 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageView;
         private TextView textView;
+        private ImageView forward;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.lunchimg);
             textView = itemView.findViewById(R.id.lunchtitle);
+            forward = itemView.findViewById(R.id.forward);
         }
+
 
         public void bind(lunchItem item) {
             Glide.with(itemView.getContext())
@@ -61,10 +78,5 @@ public class lunchAdapter extends RecyclerView.Adapter<lunchAdapter.ViewHolder> 
 
             textView.setText(item.getItemName());
         }
-    }
-
-    // Replace this with the actual method for loading images using your preferred library
-    private static void loadImageUsingLibrary(String imageUrl, ImageView imageView) {
-        // Implement image loading logic here
     }
 }
