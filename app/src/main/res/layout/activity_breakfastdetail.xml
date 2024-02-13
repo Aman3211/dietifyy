@@ -4,33 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".lunchdetail"
+    tools:context=".breakfastdetail"
     android:background="@color/white">
 
     <ImageView
-        android:id="@+id/lunchitem_img"
+        android:id="@+id/breakfastitem_img"
         android:layout_width="0dp"
         android:layout_height="250dp"
         android:background="#F6F6F6"
         android:hapticFeedbackEnabled="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/lunch"
+        android:src="@drawable/breakfast"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/lunchshadow"
+        android:id="@+id/breakfastshadow"
         android:layout_width="0dp"
         android:layout_height="100dp"
-        app:layout_constraintBottom_toBottomOf="@+id/lunchitem_img"
-        app:layout_constraintEnd_toEndOf="@+id/lunchitem_img"
-        app:layout_constraintStart_toStartOf="@+id/lunchitem_img"
+        app:layout_constraintBottom_toBottomOf="@+id/breakfastitem_img"
+        app:layout_constraintEnd_toEndOf="@+id/breakfastitem_img"
+        app:layout_constraintStart_toStartOf="@+id/breakfastitem_img"
         app:srcCompat="@drawable/image_btm_overlay" />
 
     <ImageView
-        android:id="@+id/lunchback_btn"
+        android:id="@+id/breakfastback_btn"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginStart="20dp"
@@ -42,30 +42,30 @@
         android:background="@drawable/card_back_btn"
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/lunchitem_img"
+        app:layout_constraintTop_toTopOf="@+id/breakfastitem_img"
         app:srcCompat="@drawable/back_icon" />
 
-<!--    <ImageView
-        android:id="@+id/fullscreen"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:padding="4dp"
-        android:clickable="true"
-        android:foregroundGravity="center"
-        android:hapticFeedbackEnabled="true"
-        app:tint="@color/black"
-        android:background="@drawable/card_back_btn"
-        android:layout_marginEnd="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/back_btn"
-        app:srcCompat="@drawable/full_size_ic"
-        />-->
+    <!--    <ImageView
+            android:id="@+id/fullscreen"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:padding="4dp"
+            android:clickable="true"
+            android:foregroundGravity="center"
+            android:hapticFeedbackEnabled="true"
+            app:tint="@color/black"
+            android:background="@drawable/card_back_btn"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/back_btn"
+            app:srcCompat="@drawable/full_size_ic"
+            />-->
 
 
 
 
     <RelativeLayout
-        android:id="@+id/lunchrelativeLayout"
+        android:id="@+id/breakfastrelativeLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="-10dp"
@@ -73,10 +73,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lunchitem_img">
+        app:layout_constraintTop_toBottomOf="@+id/breakfastitem_img">
 
         <TextView
-            android:id="@+id/lunch_title"
+            android:id="@+id/breakfast_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -88,11 +88,11 @@
             android:textSize="20sp" />
 
         <Button
-            android:id="@+id/lunchnutrients"
+            android:id="@+id/breakfastnutrients"
             android:layout_width="150dp"
             android:layout_height="42dp"
             android:layout_alignParentStart="true"
-            android:layout_below="@id/lunch_title"
+            android:layout_below="@id/breakfast_title"
             android:layout_marginTop="40dp"
             android:layout_marginStart="34dp"
             android:background="@drawable/btn_ing"
@@ -103,15 +103,15 @@
             android:text="Nutrients" />
 
         <ScrollView
-            android:id="@+id/lunchnutrientsscrollv"
+            android:id="@+id/breakfastnutrientsscrollv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/lunchnutrients"
+            android:layout_below="@id/breakfastnutrients"
             android:layout_alignParentStart="true"
             android:padding="10dp">
 
             <TextView
-                android:id="@+id/lunchnutrients_info"
+                android:id="@+id/breakfastnutrients_info"
                 android:layout_gravity="center_horizontal"
                 android:lineSpacingExtra="10dp"
                 android:textColor="@color/black"
@@ -123,11 +123,11 @@
         </ScrollView>
 
         <Button
-            android:id="@+id/lunchiteminfo"
+            android:id="@+id/breakfastiteminfo"
             android:layout_width="150dp"
             android:layout_height="42dp"
             android:layout_alignParentEnd="true"
-            android:layout_below="@id/lunch_title"
+            android:layout_below="@id/breakfast_title"
             android:layout_marginTop="40dp"
             android:layout_marginEnd="34dp"
             android:background="@drawable/btn_ing"
@@ -138,16 +138,16 @@
             android:text="Item Info" />
 
         <ScrollView
-            android:id="@+id/lunchiteminfoscrollv"
+            android:id="@+id/breakfastiteminfoscrollv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/lunchiteminfo"
+            android:layout_below="@id/breakfastiteminfo"
             android:layout_alignParentStart="true"
             android:padding="10dp"
             android:visibility="gone">
 
             <TextView
-                android:id="@+id/lunchitem_info"
+                android:id="@+id/breakfastitem_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -161,25 +161,25 @@
     </RelativeLayout>
 
     <ImageView
-        android:id="@+id/lunchupward"
+        android:id="@+id/breakfastupward"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:src="@drawable/scroll_up"
-        app:layout_constraintEnd_toEndOf="@+id/lunchrelativeLayout"
-        app:layout_constraintTop_toTopOf="@+id/lunchrelativeLayout" />
+        app:layout_constraintEnd_toEndOf="@+id/breakfastrelativeLayout"
+        app:layout_constraintTop_toTopOf="@+id/breakfastrelativeLayout" />
 
     <ImageView
-        android:id="@+id/lunchdownward"
+        android:id="@+id/breakfastdownward"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:src="@drawable/back_icon"
         android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@+id/lunchrelativeLayout"
-        app:layout_constraintTop_toTopOf="@+id/lunchrelativeLayout" />
+        app:layout_constraintEnd_toEndOf="@+id/breakfastrelativeLayout"
+        app:layout_constraintTop_toTopOf="@+id/breakfastrelativeLayout" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

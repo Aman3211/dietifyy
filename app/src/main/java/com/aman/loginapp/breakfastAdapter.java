@@ -1,6 +1,7 @@
 package com.aman.loginapp;
 
-import android.graphics.Color;
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,20 +17,12 @@ import java.util.List;
 
 public class breakfastAdapter extends RecyclerView.Adapter<breakfastAdapter.ViewHolder> {
     private List<BreakfastItem> itemList;
-    private static OnItemClickListener listener;
+    private Context context;
 
-    public breakfastAdapter(List<BreakfastItem> itemList) {
+    public breakfastAdapter(Context context,List<BreakfastItem> itemList) {
+        this.context = context;
         this.itemList = itemList;
 
-    }
-    // Interface for click events
-    public interface OnItemClickListener {
-        void onItemConsumed(int position, String documentId);
-    }
-
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
     }
 
     @NonNull
@@ -45,7 +38,23 @@ public class breakfastAdapter extends RecyclerView.Adapter<breakfastAdapter.View
         holder.bind(item);
 
 
-    }
+
+
+    // Set OnClickListener for the forward ImageView
+        holder.breakfastforward.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            // Handle click event for the forward ImageView
+            // For example, navigate to lunchdetail activity with data
+            Intent intent = new Intent(context, lunchdetail.class);
+            // Put the image URL and title as extras
+            intent.putExtra("imageUrl", item.getImageUrl());
+            intent.putExtra("itemName", item.getItemName());
+            context.startActivity(intent);
+        }
+    });
+}
+
 
 
     @Override
@@ -61,19 +70,13 @@ public class breakfastAdapter extends RecyclerView.Adapter<breakfastAdapter.View
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageView;
         private TextView textView;
-        private TextView Calories;
-        private TextView Protien;
-        private TextView Carbs;
-        private TextView Fat;
+        private ImageView breakfastforward;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.breakfastimg);
             textView = itemView.findViewById(R.id.breakfasttitle);
-            Calories = itemView.findViewById(R.id.Calories);
-            Protien = itemView.findViewById(R.id.Protien);
-            Carbs = itemView.findViewById(R.id.Carbs);
-            Fat = itemView.findViewById(R.id.Fat);
+            breakfastforward = itemView.findViewById(R.id.breakfastforward);
 
             // Set up the click listener for the item
         }
@@ -87,40 +90,10 @@ public class breakfastAdapter extends RecyclerView.Adapter<breakfastAdapter.View
                     ) // Optional error image
                     .into(imageView);
 
-            itemView.setOnClickListener(v -> {
-                if (listener != null) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        String documentId = item.getDocumentId();
-                        listener.onItemConsumed(position, documentId);
-                    }
-                }
-            });
-
-
-
-
-
-
-
-
             textView.setText(item.getItemName());
-            Calories.setText(item.getcalories());
-            Protien.setText(item.getprotien());
-            Carbs.setText(item.getcarbs());
-            Fat.setText(item.getfat());
-            // Set the background color based on consumption status
-            if (item.isConsumed()) {
-                itemView.setBackgroundColor(Color.LTGRAY);
-            } else {
-                itemView.setBackgroundColor(Color.WHITE);
-            }
         }
-        }
-
-
-    // Replace this with the actual method for loading images using your preferred library
-    private static void loadImageUsingLibrary(String imageUrl, ImageView imageView) {
-        // Implement image loading logic here
     }
-}
+        }
+
+
+

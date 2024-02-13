@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 
-public class lunchdetail extends AppCompatActivity {
+public class breakfastdetail extends AppCompatActivity {
 
     private boolean isUp = false;
     private ImageView itemImageView;
@@ -27,7 +27,7 @@ public class lunchdetail extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lunchdetail);
+        setContentView(R.layout.activity_breakfastdetail);
 
         hideNavigationBar();
         hideActionBar();
@@ -38,17 +38,17 @@ public class lunchdetail extends AppCompatActivity {
         String itemName = intent.getStringExtra("itemName");
 
         // Find views in your lunchdetail layout
-        itemImageView = findViewById(R.id.lunchitem_img);
-        TextView lunchTitleTextView = findViewById(R.id.lunch_title);
-        Button nutrientsButton = findViewById(R.id.lunchnutrients);
-        ScrollView nutrientsScrollView = findViewById(R.id.lunchnutrientsscrollv);
-        TextView nutrientsInfoTextView = findViewById(R.id.lunchnutrients_info);
-        Button itemInfoButton = findViewById(R.id.lunchiteminfo);
-        ScrollView itemInfoScrollView = findViewById(R.id.lunchiteminfoscrollv);
-        TextView itemInfoTextView = findViewById(R.id.lunchitem_info);
-        upwardImageView = findViewById(R.id.lunchupward);
-        downwardImageView = findViewById(R.id.lunchdownward);
-        relativeLayout = findViewById(R.id.lunchrelativeLayout);
+        itemImageView = findViewById(R.id.breakfastitem_img);
+        TextView breakfastTitleTextView = findViewById(R.id.breakfast_title);
+        Button nutrientsButton = findViewById(R.id.breakfastnutrients);
+        ScrollView nutrientsScrollView = findViewById(R.id.breakfastnutrientsscrollv);
+        TextView nutrientsInfoTextView = findViewById(R.id.breakfastnutrients_info);
+        Button itemInfoButton = findViewById(R.id.breakfastiteminfo);
+        ScrollView itemInfoScrollView = findViewById(R.id.breakfastiteminfoscrollv);
+        TextView itemInfoTextView = findViewById(R.id.breakfastitem_info);
+        upwardImageView = findViewById(R.id.breakfastupward);
+        downwardImageView = findViewById(R.id.breakfastdownward);
+        relativeLayout = findViewById(R.id.breakfastrelativeLayout);
 
         // Set image and text
         Glide.with(this)
@@ -57,7 +57,7 @@ public class lunchdetail extends AppCompatActivity {
                 .error(R.drawable.postworkout) // Error image
                 .into(itemImageView);
 
-        lunchTitleTextView.setText(itemName);
+        breakfastTitleTextView.setText(itemName);
 
         upwardImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +76,7 @@ public class lunchdetail extends AppCompatActivity {
         });
 
         // Set OnClickListener for the back button
-        ImageView backBtn = findViewById(R.id.lunchback_btn);
+        ImageView backBtn = findViewById(R.id.breakfastback_btn);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -153,7 +153,7 @@ public class lunchdetail extends AppCompatActivity {
             downwardImageView.setVisibility(View.GONE);
         }
 
-        }
+    }
     private void hideActionBar() {
         // Get the support action bar
         ActionBar actionBar = getSupportActionBar();
