@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -52,9 +53,10 @@ public class bmiactivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bmiactivity);
-
-
         bmiDatabase = FirebaseDatabase.getInstance().getReference().child("bmi_data");
+
+        String email = getIntent().getStringExtra("email");
+
 
 
 
@@ -98,7 +100,7 @@ public class bmiactivity extends AppCompatActivity {
         if(intbmi<18.5)
         {
             mbmicategory.setText("Under Weight  (<18.5)");
-            mbackground.setBackgroundColor(Color.BLUE);
+          //  mbackground.setBackgroundColor(Color.BLUE);
             mimageview.setImageResource(R.drawable.crosss);
             Normaldietbutton.setVisibility(View.GONE);
             EObsedietbutton.setVisibility(View.GONE);
@@ -111,7 +113,7 @@ public class bmiactivity extends AppCompatActivity {
         {
             mbmicategory.setText("Normal   (18.5 To 24.9)");
 
-            mbackground.setBackgroundColor(Color.GREEN);
+         //   mbackground.setBackgroundColor(Color.GREEN);
             mimageview.setImageResource(R.drawable.ok);
             Obsedietbutton.setVisibility(View.GONE);
             Normaldietbutton.setVisibility(View.VISIBLE);
@@ -122,7 +124,7 @@ public class bmiactivity extends AppCompatActivity {
         else if(intbmi>25 && intbmi<29.9)
         {
             mbmicategory.setText("OverWeight  (25 To 29.9)");
-            mbackground.setBackgroundColor(Color.RED);
+         //   mbackground.setBackgroundColor(Color.RED);
             mimageview.setImageResource(R.drawable.crosss);
             Normaldietbutton.setVisibility(View.GONE);
             EObsedietbutton.setVisibility(View.GONE);
@@ -133,7 +135,7 @@ public class bmiactivity extends AppCompatActivity {
         else if(intbmi>30 && intbmi<34.9)
         {
             mbmicategory.setText("OBESE   (30 To 34.9)");
-            mbackground.setBackgroundColor(Color.RED);
+       //     mbackground.setBackgroundColor(Color.RED);
             mimageview.setImageResource(R.drawable.crosss);
             Obsedietbutton.setVisibility(View.VISIBLE);
             Normaldietbutton.setVisibility(View.GONE);
@@ -144,7 +146,7 @@ public class bmiactivity extends AppCompatActivity {
         else
         {
             mbmicategory.setText("Extremely Obese");
-            mbackground.setBackgroundColor(Color.RED);
+       //     mbackground.setBackgroundColor(Color.RED);
             mimageview.setImageResource(R.drawable.warning);
             Normaldietbutton.setVisibility(View.GONE);
             EObsedietbutton.setVisibility(View.VISIBLE);
@@ -208,20 +210,44 @@ public class bmiactivity extends AppCompatActivity {
         });
 
 
-        saveBmiData(mbmi);
+        saveBmiData(mbmi, email);
     }
-    private void saveBmiData(String bmi) {
-        DatabaseReference userBmiRef = bmiDatabase.child(getCurrentDate());
+    private void saveBmiData(String bmi, String email) {
+        if (email != null) {
+            String encodedEmail = encodeEmail(email);
+            DatabaseReference userBmiRef = bmiDatabase.child(encodedEmail).child(getCurrentDate());
 
-        userBmiRef.setValue(bmi)
-                .addOnSuccessListener(aVoid -> Log.d("Firebase", "BMI data saved successfully"))
-                .addOnFailureListener(e -> Log.e("Firebase", "Error saving BMI data to Firebase"));
+            userBmiRef.setValue(bmi)
+                    .addOnSuccessListener(aVoid -> {
+                        Log.d("Firebase", "BMI data saved successfully");
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e("Firebase", "Error saving BMI data to Firebase", e);
+                    });
+        } else {
+            Log.e("Firebase", "Email is null");
+        }
     }
+
+
+
+    private String encodeEmail(String email) {
+        if (email != null) {
+            return Base64.encodeToString(email.getBytes(), Base64.NO_WRAP);
+        } else {
+            return null; // Or handle the null case accordingly
+        }
+    }
+
+
+
 
     private String getCurrentDate() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         return dateFormat.format(new Date());
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

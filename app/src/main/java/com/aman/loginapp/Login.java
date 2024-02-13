@@ -73,76 +73,62 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
 
-
-
-
-
-        mAuth= FirebaseAuth.getInstance();
-        editTextEmail=findViewById(R.id.email);
+        mAuth = FirebaseAuth.getInstance();
+        editTextEmail = findViewById(R.id.email);
         editTextPassword = findViewById(R.id.password);
         buttonLogin = findViewById(R.id.btn_login);
         buttonLogin.setBackgroundResource(R.drawable.buttonbackground);
-        progressBar=findViewById(R.id.progressBar);
+        progressBar = findViewById(R.id.progressBar);
         textView = findViewById(R.id.Loginnow);
         textView.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
+            @Override
+            public void onClick(View view) {
 
 
-                                            Intent intent = new Intent(getApplicationContext(), Register.class);
-                                            startActivity(intent);
-                                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                                            finish();
-                                        }
+                Intent intent = new Intent(getApplicationContext(), Register.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                finish();
+            }
         });
 
 
-
         buttonLogin.setOnClickListener(new View.OnClickListener() {
-                                           @Override
-                                           public void onClick(View view) {
+            @Override
+            public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
+                String email = editTextEmail.getText().toString(); // Retrieve email from TextInputEditText
+                String password = editTextPassword.getText().toString();
 
+                if (TextUtils.isEmpty(email)) {
+                    Toast.makeText(Login.this, "Enter email", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                    return;
+                }
 
-                                               progressBar.setVisibility(View.VISIBLE);
-                                               String email, password;
-                                               email = String.valueOf(editTextEmail.getText());
-                                               password = String.valueOf(editTextPassword.getText());
+                if (TextUtils.isEmpty(password)) {
+                    Toast.makeText(Login.this, "Enter password", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                    return;
+                }
 
-                                               if (TextUtils.isEmpty(email)) {
-                                                   Toast.makeText(Login.this, "Enter email", Toast.LENGTH_SHORT).show();
-                                                   return;
-                                               }
-
-                                               if (TextUtils.isEmpty(password)) {
-                                                   Toast.makeText(Login.this, "Enter password", Toast.LENGTH_SHORT).show();
-                                                   return;
-                                               }
-
-                                               mAuth.signInWithEmailAndPassword(email, password)
-                                                       .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                                           @Override
-                                                           public void onComplete(@NonNull Task<AuthResult> task) {
-
-
-                                                               progressBar.setVisibility(View.GONE);
-                                                               if (task.isSuccessful()) {
-                                                                   Toast.makeText(getApplicationContext(), "Login Successful",
-                                                                           Toast.LENGTH_SHORT).show();
-                                                                   Intent intent = new Intent(getApplicationContext(), Bmi.class);
-                                                                   startActivity(intent);
-                                                                   overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                                                                   finish();
-
-                                                               } else {
-
-                                                                   Toast.makeText(Login.this, "Authentication failed.",
-                                                                           Toast.LENGTH_SHORT).show();
-                                                               }
-                                                           }
-                                                       });
-
-                                           }
-
+                mAuth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                progressBar.setVisibility(View.GONE);
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(Login.this, Bmi.class);
+                                    intent.putExtra("email", email); // Pass email to bmiactivity
+                                    startActivity(intent);
+                                    finish();
+                                } else {
+                                    Toast.makeText(Login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+            }
         });
     }
 }

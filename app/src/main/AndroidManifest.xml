@@ -15,6 +15,18 @@
         android:theme="@style/Theme.Material3.Dark"
         tools:targetApi="31">
         <activity
+            android:name=".postworkoutdetail"
+            android:exported="false" />
+        <activity
+            android:name=".postworkout"
+            android:exported="false" />
+        <activity
+            android:name=".preworkoutdetail"
+            android:exported="false" />
+        <activity
+            android:name=".preworkout"
+            android:exported="false" />
+        <activity
             android:name=".breakfastdetail"
             android:exported="false" />
         <activity
