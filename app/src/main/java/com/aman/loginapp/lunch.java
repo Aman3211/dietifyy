@@ -25,6 +25,7 @@ public class lunch extends AppCompatActivity {
     private RecyclerView recyclerView;
     private lunchAdapter adapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,8 +53,9 @@ public class lunch extends AppCompatActivity {
                             // Assuming your Firestore document fields are "itemName" and "imageUrl"
                             String itemName = document.getString("itemName");
                             String imageUrl = document.getString("imageUrl");
+                            String itemId = document.getId();
 
-                            lunchItem item = new lunchItem(itemName, imageUrl);
+                            lunchItem item = new lunchItem(itemName, imageUrl,itemId);
                             itemList.add(item);
                         }
 

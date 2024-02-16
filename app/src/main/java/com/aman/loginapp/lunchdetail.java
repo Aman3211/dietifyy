@@ -3,6 +3,7 @@ package com.aman.loginapp;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -11,18 +12,31 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class lunchdetail extends AppCompatActivity {
 
     private boolean isUp = false;
+    private boolean isItemInfoVisible = false;
+    private boolean isNutrientInfoVisible = false;
+    private TextView nutrientsInfoTextView;
+    private TextView itemInfoTextView;
     private ImageView itemImageView;
     private ImageView upwardImageView;
     private ImageView downwardImageView;
     private View relativeLayout;
+    private FirebaseFirestore db;
+
+
+    private static final String TAG = "lunchdetailActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,20 +46,24 @@ public class lunchdetail extends AppCompatActivity {
         hideNavigationBar();
         hideActionBar();
 
+        db = FirebaseFirestore.getInstance();
+
         // Retrieve extras passed from lunchAdapter
         Intent intent = getIntent();
+
         String imageUrl = intent.getStringExtra("imageUrl");
         String itemName = intent.getStringExtra("itemName");
+        String itemId = getIntent().getStringExtra("itemId");
 
         // Find views in your lunchdetail layout
         itemImageView = findViewById(R.id.lunchitem_img);
         TextView lunchTitleTextView = findViewById(R.id.lunch_title);
         Button nutrientsButton = findViewById(R.id.lunchnutrients);
         ScrollView nutrientsScrollView = findViewById(R.id.lunchnutrientsscrollv);
-        TextView nutrientsInfoTextView = findViewById(R.id.lunchnutrients_info);
+        nutrientsInfoTextView = findViewById(R.id.lunchnutrients_info);
         Button itemInfoButton = findViewById(R.id.lunchiteminfo);
         ScrollView itemInfoScrollView = findViewById(R.id.lunchiteminfoscrollv);
-        TextView itemInfoTextView = findViewById(R.id.lunchitem_info);
+        itemInfoTextView = findViewById(R.id.lunchitem_info);
         upwardImageView = findViewById(R.id.lunchupward);
         downwardImageView = findViewById(R.id.lunchdownward);
         relativeLayout = findViewById(R.id.lunchrelativeLayout);
@@ -80,7 +98,7 @@ public class lunchdetail extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish(); // Close this activity and return to previous activity
+                finish(); // Close this activity and return to the previous activity
             }
         });
 
@@ -88,12 +106,9 @@ public class lunchdetail extends AppCompatActivity {
         nutrientsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (nutrientsScrollView.getVisibility() == View.VISIBLE) {
-                    nutrientsScrollView.setVisibility(View.GONE);
-                } else {
-                    nutrientsScrollView.setVisibility(View.VISIBLE);
-                    nutrientsInfoTextView.setText("Your nutrients information goes here");
-                }
+                // Fetch nutrient data for the current item
+                fetchNutrientsData(itemId);
+                toggleNutrientInfoVisibility();
             }
         });
 
@@ -101,16 +116,69 @@ public class lunchdetail extends AppCompatActivity {
         itemInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (itemInfoScrollView.getVisibility() == View.VISIBLE) {
-                    itemInfoScrollView.setVisibility(View.GONE);
-                } else {
-                    itemInfoScrollView.setVisibility(View.VISIBLE);
-                    itemInfoTextView.setText("Your item information goes here");
-                }
+                Log.d(TAG, "Item Info Button Clicked");
+                // Fetch item info data for the current item
+                fetchItemInfoData(itemId);
+                toggleItemInfoVisibility();
             }
         });
     }
 
+        private void fetchNutrientsData(String itemId) {
+        // Check if itemId is not null
+        if (itemId != null) {
+            db.collection("lunchitem")
+                    .document(itemId) // Pass the itemId here
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    String nutrientinfo = document.getString("nutrientinfo");
+                                    nutrientsInfoTextView.setText(nutrientinfo);
+                                } else {
+                                    Log.d(TAG, "No such document");
+                                }
+                            } else {
+                                Log.d(TAG, "get failed with ", task.getException());
+                            }
+                        }
+                    });
+        } else {
+            Log.e(TAG, "itemId is null");
+        }
+    }
+
+
+
+    private void fetchItemInfoData(String itemId) {
+        // Check if itemId is not null
+        if (itemId != null) {
+            db.collection("lunchitem")
+                    .document(itemId)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    String iteminfo = document.getString("iteminfo");
+                                    itemInfoTextView.setText(iteminfo);
+                                } else {
+                                    Log.d(TAG, "No such document");
+                                }
+                            } else {
+                                Log.d(TAG, "get failed with ", task.getException());
+                            }
+                        }
+                    });
+        } else {
+            Log.e(TAG, "itemId is null");
+        }
+    }
 
 
     private void animateViews(float distanceToMove) {
@@ -142,8 +210,6 @@ public class lunchdetail extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
     }
 
-
-
     private void toggleVisibility(boolean isUpwardVisible) {
         if (isUpwardVisible) {
             upwardImageView.setVisibility(View.GONE);
@@ -152,8 +218,31 @@ public class lunchdetail extends AppCompatActivity {
             upwardImageView.setVisibility(View.VISIBLE);
             downwardImageView.setVisibility(View.GONE);
         }
+    }
 
+    private void toggleNutrientInfoVisibility() {
+        if (isNutrientInfoVisible) {
+            // Hide the nutrient info
+            nutrientsInfoTextView.setVisibility(View.GONE);
+            isNutrientInfoVisible = false;
+        } else {
+            // Show the nutrient info
+            nutrientsInfoTextView.setVisibility(View.VISIBLE);
+            isNutrientInfoVisible = true;
         }
+    }
+    private void toggleItemInfoVisibility() {
+        if (isItemInfoVisible) {
+            // Hide the item info
+            itemInfoTextView.setVisibility(View.GONE);
+            isItemInfoVisible = false;
+        } else {
+            // Show the item info
+            itemInfoTextView.setVisibility(View.VISIBLE);
+            isItemInfoVisible = true;
+        }
+    }
+
     private void hideActionBar() {
         // Get the support action bar
         ActionBar actionBar = getSupportActionBar();
@@ -162,6 +251,4 @@ public class lunchdetail extends AppCompatActivity {
             actionBar.hide();
         }
     }
-
-
 }

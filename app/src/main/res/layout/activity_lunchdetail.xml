@@ -118,6 +118,7 @@
                 android:lineSpacingExtra="10dp"
                 android:textColor="@color/black"
                 android:text=""
+                android:textStyle="bold"
                 android:textSize="15sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -146,7 +147,7 @@
             android:layout_below="@id/lunchiteminfo"
             android:layout_alignParentStart="true"
             android:padding="10dp"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <TextView
                 android:id="@+id/lunchitem_info"
@@ -155,6 +156,7 @@
                 android:layout_gravity="center_horizontal"
                 android:lineSpacingExtra="10dp"
                 android:text=""
+                android:textStyle="bold"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 

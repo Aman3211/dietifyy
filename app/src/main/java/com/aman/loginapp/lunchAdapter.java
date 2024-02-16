@@ -44,6 +44,7 @@ public class lunchAdapter extends RecyclerView.Adapter<lunchAdapter.ViewHolder> 
                 // For example, navigate to lunchdetail activity with data
                 Intent intent = new Intent(context, lunchdetail.class);
                 // Put the image URL and title as extras
+                intent.putExtra("itemId", item.getItemId());
                 intent.putExtra("imageUrl", item.getImageUrl());
                 intent.putExtra("itemName", item.getItemName());
                 context.startActivity(intent);
