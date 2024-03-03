@@ -15,6 +15,15 @@
         android:theme="@style/Theme.Material3.Dark"
         tools:targetApi="31">
         <activity
+            android:name=".UWbreakfastdetail"
+            android:exported="false" />
+        <activity
+            android:name=".UWbreakfast"
+            android:exported="false" />
+        <activity
+            android:name=".UnderWeight"
+            android:exported="false" />
+        <activity
             android:name=".postworkoutdetail"
             android:exported="false" />
         <activity
@@ -28,9 +37,6 @@
             android:exported="false" />
         <activity
             android:name=".breakfastdetail"
-            android:exported="false" />
-        <activity
-            android:name=".lunchdetaill"
             android:exported="false" />
         <activity
             android:name=".lunchdetail"

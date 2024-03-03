@@ -48,8 +48,10 @@ public class Login extends AppCompatActivity {
                         .edit()
                         .putBoolean("isFirstLogin", false)
                         .apply();
-                String email = String.valueOf(editTextEmail.getText());
-                Intent intent = new Intent(getApplicationContext(), Bmi.class);
+
+                String email = currentUser.getEmail(); // Retrieve email from FirebaseUser object
+
+                Intent intent = new Intent(getApplicationContext(), bmiactivity.class);
                 intent.putExtra("email", email);
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -65,6 +67,7 @@ public class Login extends AppCompatActivity {
             }
         }
     }
+
 
 
     @Override

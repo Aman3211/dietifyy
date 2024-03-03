@@ -10,12 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.FoodViewHolder> {
+public class UnderWeightAdapter extends RecyclerView.Adapter<UnderWeightAdapter.FoodViewHolder> {
 
-    private List<FoodItem> foodList;
+    private List<underweightItem> foodList;
     private LayoutInflater inflater;
 
-    public FoodListAdapter(List<FoodItem> foodList, Context context) {
+    public UnderWeightAdapter(List<underweightItem> foodList, Context context) {
         this.foodList = foodList;
         this.inflater = LayoutInflater.from(context);
     }
@@ -23,13 +23,13 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.FoodVi
     @NonNull
     @Override
     public FoodViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.item_diet_plan, parent, false);
+        View view = inflater.inflate(R.layout.underweight_rv, parent, false);
         return new FoodViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull FoodViewHolder holder, int position) {
-        FoodItem currentFood = foodList.get(position);
+        underweightItem currentFood = foodList.get(position);
         holder.bind(currentFood);
     }
 
@@ -48,7 +48,7 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.FoodVi
 
         }
 
-        public void bind(FoodItem foodItem) {
+        public void bind(underweightItem underweightItem) {
 
 
         }

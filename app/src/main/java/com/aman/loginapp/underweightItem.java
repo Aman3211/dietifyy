@@ -1,10 +1,9 @@
 package com.aman.loginapp;
-
-public class FoodItem {
+public class underweightItem {
     private String name;
 
 
-    public FoodItem(String name) {
+    public underweightItem(String name) {
         this.name = name;
 
     }
@@ -17,3 +16,5 @@ public class FoodItem {
 
 
 }
+
+

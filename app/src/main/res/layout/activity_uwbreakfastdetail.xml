@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UWbreakfastdetail"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/UWbreakfastitem_img"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:background="#F6F6F6"
+        android:hapticFeedbackEnabled="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/breakfast"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/UWbreakfastshadow"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="@+id/UWbreakfastitem_img"
+        app:layout_constraintEnd_toEndOf="@+id/UWbreakfastitem_img"
+        app:layout_constraintStart_toStartOf="@+id/UWbreakfastitem_img"
+        app:srcCompat="@drawable/image_btm_overlay" />
+
+    <ImageView
+        android:id="@+id/UWbreakfastback_btn"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="20dp"
+        android:clickable="true"
+        app:tint="@color/black"
+        android:padding="4dp"
+        android:foregroundGravity="center"
+        android:hapticFeedbackEnabled="true"
+        android:background="@drawable/card_back_btn"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/UWbreakfastitem_img"
+        app:srcCompat="@drawable/back_icon" />
+
+    <!--    <ImageView
+            android:id="@+id/fullscreen"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:padding="4dp"
+            android:clickable="true"
+            android:foregroundGravity="center"
+            android:hapticFeedbackEnabled="true"
+            app:tint="@color/black"
+            android:background="@drawable/card_back_btn"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/back_btn"
+            app:srcCompat="@drawable/full_size_ic"
+            />-->
+
+
+
+
+    <RelativeLayout
+        android:id="@+id/UWbreakfastrelativeLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="-10dp"
+        android:background="@drawable/card_recipe"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/UWbreakfastitem_img">
+
+        <TextView
+            android:id="@+id/UWbreakfast_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginEnd="75dp"
+            android:fontFamily="@font/poppinssemibold"
+            android:text="Sample Title"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/UWbreakfastnutrients"
+            android:layout_width="150dp"
+            android:layout_height="42dp"
+            android:layout_below="@id/UWbreakfast_title"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="34dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="43dp"
+            android:layout_toStartOf="@+id/UWbreakfastiteminfo"
+            android:background="@drawable/btn_ing"
+            android:fontFamily="@font/poppinssemibold"
+
+            android:paddingLeft="20sp"
+            android:paddingRight="20sp"
+            android:text="Nutrients" />
+
+        <ScrollView
+            android:id="@+id/UWbreakfastnutrientsscrollv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/UWbreakfastnutrients"
+            android:layout_alignParentStart="true"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/UWbreakfastnutrients_info"
+                android:layout_gravity="center_horizontal"
+                android:lineSpacingExtra="10dp"
+                android:textColor="@color/black"
+                android:text=""
+                android:textSize="15sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </ScrollView>
+
+        <Button
+            android:id="@+id/UWbreakfastiteminfo"
+            android:layout_width="150dp"
+            android:layout_height="42dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/UWbreakfast_title"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="34dp"
+            android:background="@drawable/btn_ing"
+            android:paddingLeft="20sp"
+            android:paddingRight="20sp"
+            android:fontFamily="@font/poppinssemibold"
+
+
+            android:text="Item Info" />
+
+        <ScrollView
+            android:id="@+id/UWbreakfastiteminfoscrollv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/UWbreakfastiteminfo"
+            android:layout_alignParentStart="true"
+            android:padding="10dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/UWbreakfastitem_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:lineSpacingExtra="10dp"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+        </ScrollView>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/UWbreakfastupward"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/scroll_up"
+        app:layout_constraintEnd_toEndOf="@+id/UWbreakfastrelativeLayout"
+        app:layout_constraintTop_toTopOf="@+id/UWbreakfastrelativeLayout" />
+
+    <ImageView
+        android:id="@+id/UWbreakfastdownward"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/back_icon"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/UWbreakfastrelativeLayout"
+        app:layout_constraintTop_toTopOf="@+id/UWbreakfastrelativeLayout" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

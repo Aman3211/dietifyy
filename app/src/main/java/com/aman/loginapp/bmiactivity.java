@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -55,8 +54,8 @@ public class bmiactivity extends AppCompatActivity {
         setContentView(R.layout.activity_bmiactivity);
         bmiDatabase = FirebaseDatabase.getInstance().getReference().child("bmi_data");
 
-        String email = getIntent().getStringExtra("email");
-
+//        Intent intent = getIntent();
+//        String email = intent.getStringExtra("email");
 
 
 
@@ -174,7 +173,7 @@ public class bmiactivity extends AppCompatActivity {
         UnderWdietbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(bmiactivity.this,Bmi.class);
+                Intent intent= new Intent(bmiactivity.this,UnderWeight.class);
                 startActivity(intent);
                 finish();
             }
@@ -210,14 +209,14 @@ public class bmiactivity extends AppCompatActivity {
         });
 
 
-        saveBmiData(mbmi, email);
+        saveBmiData(mbmi);
     }
-    private void saveBmiData(String bmi, String email) {
-        if (email != null) {
-            String encodedEmail = encodeEmail(email);
-            DatabaseReference userBmiRef = bmiDatabase.child(encodedEmail).child(getCurrentDate());
+    private void saveBmiData(String bmi) {
+        String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        if (userEmail != null) {
+            DatabaseReference userBmiRef = bmiDatabase.child(userEmail.replace(".", "dot")).child(getCurrentDate());
 
-            userBmiRef.setValue(bmi)
+            userBmiRef.child("bmi").setValue(bmi) // Store BMI data
                     .addOnSuccessListener(aVoid -> {
                         Log.d("Firebase", "BMI data saved successfully");
                     })
@@ -225,17 +224,7 @@ public class bmiactivity extends AppCompatActivity {
                         Log.e("Firebase", "Error saving BMI data to Firebase", e);
                     });
         } else {
-            Log.e("Firebase", "Email is null");
-        }
-    }
-
-
-
-    private String encodeEmail(String email) {
-        if (email != null) {
-            return Base64.encodeToString(email.getBytes(), Base64.NO_WRAP);
-        } else {
-            return null; // Or handle the null case accordingly
+            Log.e("Firebase", "User email is null");
         }
     }
 

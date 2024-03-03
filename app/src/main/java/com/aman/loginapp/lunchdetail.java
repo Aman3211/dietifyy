@@ -125,6 +125,9 @@ public class lunchdetail extends AppCompatActivity {
     }
 
         private void fetchNutrientsData(String itemId) {
+        // Retrieve itemId from intent extras
+
+
         // Check if itemId is not null
         if (itemId != null) {
             db.collection("lunchitem")

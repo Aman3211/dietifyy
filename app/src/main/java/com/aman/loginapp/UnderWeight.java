@@ -25,31 +25,31 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 import java.util.List;
 
-public class normaldiet extends AppCompatActivity {
+public class UnderWeight extends AppCompatActivity {
 
-    private RecyclerView recyclerViewDietPlan;
-    private FoodListAdapter foodListAdapter;
+    private RecyclerView UWrecyclerViewDietPlan;
+    private UnderWeightAdapter underWeightAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_normaldiet);
+        setContentView(R.layout.activity_under_weight);
 
 
 
         getSupportActionBar().setElevation(0);
         getSupportActionBar().setTitle(Html.fromHtml("<font color=\"white\"></font>"));
-        getSupportActionBar().setTitle("Normal Diet");
+        getSupportActionBar().setTitle("UnderWeight Diet");
         ColorDrawable colorDrawable=new ColorDrawable(Color.parseColor("#1E1D1D"));
         getSupportActionBar().setBackgroundDrawable(colorDrawable);
 
 
 
-        recyclerViewDietPlan = findViewById(R.id.recyclerViewDietPlan);
-        recyclerViewDietPlan.setLayoutManager(new LinearLayoutManager(this));
+        UWrecyclerViewDietPlan = findViewById(R.id.UWrecyclerViewDietPlan);
+        UWrecyclerViewDietPlan.setLayoutManager(new LinearLayoutManager(this));
 
         List<DietCategory> dietCategories = new ArrayList<>();
-        dietCategories.add(new DietCategory("Breakfast", R.drawable.breakfast, breakfast.class));
+        dietCategories.add(new DietCategory("Breakfast", R.drawable.breakfast, UWbreakfast.class));
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         dietCategories.add(new DietCategory("Lunch", R.drawable.lunch, lunch.class));
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -58,30 +58,30 @@ public class normaldiet extends AppCompatActivity {
         dietCategories.add(new DietCategory("Post-workout", R.drawable.postworkout, postworkout.class));
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
-        foodListAdapter = new FoodListAdapter(dietCategories);
-        recyclerViewDietPlan.setAdapter(foodListAdapter);
+        underWeightAdapter = new UnderWeightAdapter(dietCategories);
+        UWrecyclerViewDietPlan.setAdapter(underWeightAdapter);
     }
 
-    private static class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.ViewHolder> {
+    private static class UnderWeightAdapter extends RecyclerView.Adapter<UnderWeightAdapter.ViewHolder> {
 
         private List<DietCategory> dietCategories;
 
-        FoodListAdapter(List<DietCategory> dietCategories) {
+        UnderWeightAdapter(List<DietCategory> dietCategories) {
             this.dietCategories = dietCategories;
         }
 
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_diet_plan, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.underweight_rv, parent, false);
             return new ViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             DietCategory category = dietCategories.get(position);
-            holder.imageViewCategory.setImageResource(category.getImageResource());
-            holder.textViewCategory.setText(category.getName());
+            holder.UWimageViewCategory.setImageResource(category.getImageResource());
+            holder.UWtextViewCategory.setText(category.getName());
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -100,14 +100,14 @@ public class normaldiet extends AppCompatActivity {
         }
 
         static class ViewHolder extends RecyclerView.ViewHolder {
-            ImageView imageViewCategory;
-            TextView textViewCategory;
+            ImageView UWimageViewCategory;
+            TextView UWtextViewCategory;
 
             ViewHolder(@NonNull View itemView) {
                 super(itemView);
-                imageViewCategory = itemView.findViewById(R.id.imageViewCategory);
-                imageViewCategory.setAlpha(0.5f);
-                textViewCategory = itemView.findViewById(R.id.textViewCategory);
+                UWimageViewCategory = itemView.findViewById(R.id.UWimageViewCategory);
+                UWimageViewCategory.setAlpha(0.5f);
+                UWtextViewCategory = itemView.findViewById(R.id.UWtextViewCategory);
             }
         }
     }

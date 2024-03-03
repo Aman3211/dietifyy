@@ -15,11 +15,11 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-public class breakfastAdapter extends RecyclerView.Adapter<breakfastAdapter.ViewHolder> {
-    private List<BreakfastItem> itemList;
+public class UWbreakfastAdapter extends RecyclerView.Adapter<UWbreakfastAdapter.ViewHolder> {
+    private List<UWbreakfastItem> itemList;
     private Context context;
 
-    public breakfastAdapter(Context context,List<BreakfastItem> itemList) {
+    public UWbreakfastAdapter(Context context,List<UWbreakfastItem> itemList) {
         this.context = context;
         this.itemList = itemList;
 
@@ -28,32 +28,32 @@ public class breakfastAdapter extends RecyclerView.Adapter<breakfastAdapter.View
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.breakfast_rv, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.uwbreakfast_rv, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        BreakfastItem item = itemList.get(position);
+        UWbreakfastItem item = itemList.get(position);
         holder.bind(item);
 
 
 
 
-    // Set OnClickListener for the forward ImageView
-        holder.breakfastforward.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            // Handle click event for the forward ImageView
-            // For example, navigate to breakfastdetail activity with data
-            Intent intent = new Intent(context, breakfastdetail.class);
-            // Put the image URL and title as extras
-            intent.putExtra("imageUrl", item.getImageUrl());
-            intent.putExtra("itemName", item.getItemName());
-            context.startActivity(intent);
-        }
-    });
-}
+        // Set OnClickListener for the forward ImageView
+        holder.UWbreakfastforward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Handle click event for the forward ImageView
+                // For example, navigate to lunchdetail activity with data
+                Intent intent = new Intent(context, UWbreakfastdetail.class);
+                // Put the image URL and title as extras
+                intent.putExtra("imageUrl", item.getImageUrl());
+                intent.putExtra("itemName", item.getItemName());
+                context.startActivity(intent);
+            }
+        });
+    }
 
 
 
@@ -62,7 +62,7 @@ public class breakfastAdapter extends RecyclerView.Adapter<breakfastAdapter.View
 
         return itemList.size();
     }
-    public List<BreakfastItem> getItemList() {
+    public List<UWbreakfastItem> getItemList() {
         return itemList;
     }
 
@@ -70,18 +70,18 @@ public class breakfastAdapter extends RecyclerView.Adapter<breakfastAdapter.View
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageView;
         private TextView textView;
-        private ImageView breakfastforward;
+        private ImageView UWbreakfastforward;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.breakfastimg);
-            textView = itemView.findViewById(R.id.breakfasttitle);
-            breakfastforward = itemView.findViewById(R.id.breakfastforward);
+            imageView = itemView.findViewById(R.id.UWbreakfastimg);
+            textView = itemView.findViewById(R.id.UWbreakfasttitle);
+            UWbreakfastforward = itemView.findViewById(R.id.UWbreakfastforward);
 
             // Set up the click listener for the item
         }
 
-        public void bind(BreakfastItem item) {
+        public void bind(UWbreakfastItem item) {
             Glide.with(itemView.getContext())
                     .load(item.getImageUrl())
                     .placeholder(R.drawable.ic_launcher_foreground) // Optional placeholder image
@@ -93,7 +93,7 @@ public class breakfastAdapter extends RecyclerView.Adapter<breakfastAdapter.View
             textView.setText(item.getItemName());
         }
     }
-        }
+}
 
 
 
