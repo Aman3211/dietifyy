@@ -15,52 +15,64 @@
         android:theme="@style/Theme.Material3.Dark"
         tools:targetApi="31">
         <activity
-            android:name=".UWbreakfastdetail"
+            android:name=".UnderweightPreworkout.UWpreworkoutdetail"
             android:exported="false" />
         <activity
-            android:name=".UWbreakfast"
+            android:name=".UnderweightPreworkout.UWpreworkout"
             android:exported="false" />
         <activity
-            android:name=".UnderWeight"
+            android:name=".UnderweightLunch.UWlunchdetail"
             android:exported="false" />
         <activity
-            android:name=".postworkoutdetail"
+            android:name=".UnderweightLunch.UWlunch"
             android:exported="false" />
         <activity
-            android:name=".postworkout"
+            android:name=".UnderweightBreakfast.UWbreakfastdetail"
             android:exported="false" />
         <activity
-            android:name=".preworkoutdetail"
+            android:name=".UnderweightBreakfast.UWbreakfast"
             android:exported="false" />
         <activity
-            android:name=".preworkout"
+            android:name=".UnderweightCategory.UnderWeight"
             android:exported="false" />
         <activity
-            android:name=".breakfastdetail"
+            android:name=".NormalPostworkout.postworkoutdetail"
             android:exported="false" />
         <activity
-            android:name=".lunchdetail"
+            android:name=".NormalPostworkout.postworkout"
             android:exported="false" />
         <activity
-            android:name=".lunch"
+            android:name=".NormalPreworkout.preworkoutdetail"
             android:exported="false" />
         <activity
-            android:name=".breakfast"
+            android:name=".NormalPreworkout.preworkout"
             android:exported="false" />
         <activity
-            android:name=".normaldiet"
+            android:name=".NormalBreakfast.breakfastdetail"
             android:exported="false" />
         <activity
-            android:name=".bmiactivity"
+            android:name=".NormalLunch.lunchdetail"
             android:exported="false" />
         <activity
-            android:name=".Bmi"
+            android:name=".NormalLunch.lunch"
+            android:exported="false" />
+        <activity
+            android:name=".NormalBreakfast.breakfast"
+            android:exported="false" />
+        <activity
+            android:name=".NormalCategory.normaldiet"
+            android:exported="false" />
+        <activity
+            android:name=".Login_RegisterBmi.bmiactivity"
+            android:exported="false" />
+        <activity
+            android:name=".Login_RegisterBmi.Bmi"
             android:exported="false" />
         <activity
             android:name=".splash"
             android:exported="false" />
         <activity
-            android:name=".Register"
+            android:name=".Login_RegisterBmi.Register"
             android:exported="true"
             android:theme="@style/Theme.Material3.Dark.NoActionBar">
             <meta-data
@@ -68,7 +80,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Login"
+            android:name=".Login_RegisterBmi.Login"
             android:exported="true"
             android:theme="@style/Theme.Material3.Dark.NoActionBar">
             <intent-filter>

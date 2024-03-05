@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
 
+import com.aman.loginapp.Login_RegisterBmi.Login;
+
 public class splash extends AppCompatActivity {
 
     @Override
@@ -20,7 +22,7 @@ public class splash extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent =new Intent(splash.this,Login.class);
+                Intent intent =new Intent(splash.this, Login.class);
                 startActivity(intent);
                 finish();
             }

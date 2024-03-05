@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
-    tools:context=".NormalPreworkout.preworkout">
+    tools:context=".UnderweightLunch.UWlunch">
 
 
     <ImageView
-        android:id="@+id/preworkoutimagev"
+        android:id="@+id/UWlunchimagev"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
@@ -23,32 +23,32 @@
 
 
     <TextView
-        android:id="@+id/preworkoutTitleTextv"
+        android:id="@+id/UWlunchTitleTextv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Preworkout"
+        android:text="Lunch"
 
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/preworkoutimagev"
+        app:layout_constraintBottom_toBottomOf="@+id/UWlunchimagev"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.11"
         android:textColor="@color/black"
         android:textSize="24sp"
         android:fontFamily="@font/popins"
-        app:layout_constraintStart_toEndOf="@+id/preworkoutimagev"
-        app:layout_constraintTop_toTopOf="@+id/preworkoutimagev" />
+        app:layout_constraintStart_toEndOf="@+id/UWlunchimagev"
+        app:layout_constraintTop_toTopOf="@+id/UWlunchimagev" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        android:id="@+id/recyclerpreworkout"
+        android:id="@+id/UWrecyclerlunch"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
 
-
+        tools:listitem="@layout/uwlunch_rv"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/preworkoutimagev" />
+        app:layout_constraintTop_toBottomOf="@+id/UWlunchimagev" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

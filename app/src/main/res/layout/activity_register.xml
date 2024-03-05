@@ -9,7 +9,7 @@
 
     android:orientation="vertical"
     android:padding="15dp"
-    tools:context=".Register">
+    tools:context=".Login_RegisterBmi.Register">
 
     <TextView
         android:layout_width="match_parent"

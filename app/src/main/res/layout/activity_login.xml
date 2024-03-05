@@ -9,7 +9,7 @@
     android:orientation="vertical"
     android:padding="15dp"
     android:background="#000000"
-    tools:context=".Login"
+    tools:context=".Login_RegisterBmi.Login"
     >
 
 
