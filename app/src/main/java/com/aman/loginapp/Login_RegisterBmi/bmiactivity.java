@@ -18,17 +18,20 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.aman.loginapp.NormalCategory.normaldiet;
 import com.aman.loginapp.R;
 import com.aman.loginapp.UnderweightCategory.UnderWeight;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-
-import com.aman.loginapp.NormalCategory.normaldiet;
 
 public class bmiactivity extends AppCompatActivity {
 
@@ -59,10 +62,57 @@ public class bmiactivity extends AppCompatActivity {
         bmiDatabase = FirebaseDatabase.getInstance().getReference().child("bmi_data");
 
 
-        Intent intent = new Intent(bmiactivity.this, Login.class);
-        intent.putExtra("bmi", mbmi); // Pass the calculated BMI
-        startActivity(intent);
-        finish();
+
+            // Retrieve previous BMI from Firebase
+            String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+            if (userEmail != null) {
+                DatabaseReference userBmiRef = bmiDatabase.child(userEmail.replace(".", "dot")).child(getPreviousDate());
+                userBmiRef.child("bmi").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            String previousBmiStr = snapshot.getValue(String.class);
+                            float previousBmi = Float.parseFloat(previousBmiStr);
+
+                            // Calculate the change in BMI
+                            float bmiChange = intbmi - previousBmi;
+
+                            // Set the BMI change text
+                            TextView bmiChangeTextView = findViewById(R.id.bmiChangeTextView);
+                            bmiChangeTextView.setText(String.format(Locale.getDefault(), "Change in BMI: %.2f\n", Math.abs(bmiChange)));
+
+                            if (bmiChange > 0) {
+                                bmiChangeTextView.append("BMI increased");
+                            } else if (bmiChange < 0) {
+                                bmiChangeTextView.append("BMI decreased");
+                            } else {
+                                bmiChangeTextView.append("BMI remained the same");
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.e("Firebase", "Error retrieving previous BMI: " + error.getMessage());
+                    }
+                });
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -76,6 +126,8 @@ public class bmiactivity extends AppCompatActivity {
 
 
         intent=getIntent();
+        height = intent.getStringExtra("height");
+        weight = intent.getStringExtra("weight");
         mbmidisplay=findViewById(R.id.bmidisplay);
         mbmicategory=findViewById(R.id.bmicategory);
         mgender=findViewById(R.id.genderdisplay);
@@ -91,22 +143,37 @@ public class bmiactivity extends AppCompatActivity {
 
 
 
-        height=intent.getStringExtra("height");
-        weight=intent.getStringExtra("weight");
+        height = intent.getStringExtra("height");
+        weight = intent.getStringExtra("weight");
 
-        intheight=Float.parseFloat(height);
-        intweight=Float.parseFloat(weight);
+        if (height != null && weight != null) {
+            intheight = Float.parseFloat(height) / 100; // Convert cm to meters
+            intweight = Float.parseFloat(weight);
 
-        intheight=intheight/100;
+            intbmi = intweight / (intheight * intheight);
+            mbmi = Float.toString(intbmi);
 
-        intbmi=intweight/(intheight*intheight);
+            // Proceed with further calculations and operations
+        } else {
+            Log.e("bmiactivity", "Height or weight is null");
+            // Handle the case where height or weight is null
+        }
 
-        mbmi=Float.toString(intbmi);
+// Start activity after setting mbmi
+        Intent intent = new Intent(bmiactivity.this, Login.class);
+        intent.putExtra("bmi", mbmi);
+        startActivity(intent);
+        finish();
+
+
 
         if(intbmi<18.5)
         {
             mbmicategory.setText("Under Weight  (<18.5)");
           //  mbackground.setBackgroundColor(Color.BLUE);
+
+            startActivity(intent);
+            finish();
             mimageview.setImageResource(R.drawable.crosss);
             Normaldietbutton.setVisibility(View.GONE);
             EObsedietbutton.setVisibility(View.GONE);
@@ -120,6 +187,9 @@ public class bmiactivity extends AppCompatActivity {
             mbmicategory.setText("Normal   (18.5 To 24.9)");
 
          //   mbackground.setBackgroundColor(Color.GREEN);
+
+            startActivity(intent);
+            finish();
             mimageview.setImageResource(R.drawable.ok);
             Obsedietbutton.setVisibility(View.GONE);
             Normaldietbutton.setVisibility(View.VISIBLE);
@@ -218,6 +288,9 @@ public class bmiactivity extends AppCompatActivity {
 
         saveBmiData(mbmi);
     }
+
+
+
     private void saveBmiData(String bmi) {
         String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         if (userEmail != null) {
@@ -238,10 +311,23 @@ public class bmiactivity extends AppCompatActivity {
 
 
 
+
+
+
+
     private String getCurrentDate() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         return dateFormat.format(new Date());
     }
+
+
+    private String getPreviousDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -1); // Subtract 1 day from the current date
+        return dateFormat.format(calendar.getTime());
+    }
+
 
 
 
@@ -267,21 +353,36 @@ public class bmiactivity extends AppCompatActivity {
     }
 
     public void recalculateBMI() {
-        Intent intent = new Intent(this, Bmi.class);
-        intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        finish();
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra("bmi")) {
+            String bmi = intent.getStringExtra("bmi");
+            Intent newIntent = new Intent(this, Bmi.class);
+            newIntent.putExtra("bmi", bmi);
+            newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(newIntent);
+            finish();
+        } else {
+            Log.e("bmiactivity", "No BMI value found in intent extras");
+        }
     }
 
-    public void logout(){
+
+
+    public void logout() {
+        // Clear shared preferences indicating it's not the first login
+        getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+                .edit()
+                .putBoolean("isFirstLogin", true)
+                .apply();
 
         Log.d("Logout", "Logging out and going to login page");
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(this, Login.class);
-        intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
     }
+
 
 
 }

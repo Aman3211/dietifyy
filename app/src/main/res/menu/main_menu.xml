@@ -8,5 +8,8 @@
     <item
         android:id="@+id/logout"
         android:title="Logout"/>
+    <item
+        android:id="@+id/bmiresult"
+        android:title="Bmi Result"/>
 
 </menu>

@@ -48,6 +48,11 @@ public class Bmi extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bmi);
 
+        // Retrieve BMI value passed from bmiactivity
+        Intent intent = getIntent();
+        String bmiValue = intent.getStringExtra("bmi");
+
+
         getSupportActionBar().hide();
 
         mcalculatebmi=findViewById(R.id.calculatebmi);
@@ -205,11 +210,14 @@ public class Bmi extends AppCompatActivity {
                 }
                 else
                 {
-                    Intent intent= new Intent(Bmi.this, bmiactivity.class);
                     intent.putExtra("gender",typeofuser);
                     intent.putExtra("height",mintprogress);
                     intent.putExtra("weight",weight2);
                     intent.putExtra("age",age2);
+                    intent.putExtra("bmi", bmiValue);
+
+                    Intent intent= new Intent(Bmi.this, bmiactivity.class);
+
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }

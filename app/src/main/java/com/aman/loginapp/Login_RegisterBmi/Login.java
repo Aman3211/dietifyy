@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.aman.loginapp.NormalCategory.normaldiet;
 import com.aman.loginapp.R;
 import com.aman.loginapp.UnderweightCategory.UnderWeight;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,9 +23,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import com.aman.loginapp.NormalCategory.normaldiet;
-
 public class Login extends AppCompatActivity {
+
+
 
     TextInputEditText editTextEmail,editTextPassword;
     Button buttonLogin;
@@ -40,51 +41,54 @@ public class Login extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if (currentUser != null) {
-            // Check if the user has already been redirected to NormalDiet
             boolean isFirstLogin = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
                     .getBoolean("isFirstLogin", true);
 
             if (isFirstLogin) {
-                // Debugging message to check if it's entering this block
                 Log.d("LoginActivity", "First login detected");
 
-                // Set isFirstLogin to false for subsequent logins
                 getSharedPreferences("PREFERENCE", MODE_PRIVATE)
                         .edit()
                         .putBoolean("isFirstLogin", false)
                         .apply();
 
-                String email = currentUser.getEmail(); // Retrieve email from FirebaseUser object
-
-                Intent intent = new Intent(getApplicationContext(), bmiactivity.class);
-                intent.putExtra("email", email);
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                finish();
-            } else {
-                // Subsequent login detected, check BMI and redirect accordingly
-                Intent intent;
-                double userBMI = getIntent().getDoubleExtra("bmi", 0.0);
-
-                if (userBMI < 18.5) {
-                    // Underweight
-                    intent = new Intent(getApplicationContext(), UnderWeight.class);
-                } else if (userBMI >= 18.5 && userBMI < 25) {
-                    // Normal weight
-                    intent = new Intent(getApplicationContext(), normaldiet.class);
+                // Retrieve BMI value from intent extras
+                Intent intent = getIntent();
+                if (intent != null && intent.hasExtra("bmi")) {
+                    double bmi = intent.getDoubleExtra("bmi", 0.0); // Retrieve the BMI value
+                    // Redirect based on BMI
+                    redirectToNextActivity((float) bmi);
                 } else {
-                    // Handle other BMI ranges here, if needed
-                    // For example, redirect to a different activity
-                    intent = new Intent(getApplicationContext(), normaldiet.class);
+                    Log.e("LoginActivity", "No BMI value found in intent extras");
                 }
+            } else {
+                Log.d("LoginActivity", "Subsequent login detected");
 
+                Intent intent = new Intent(getApplicationContext(), normaldiet.class);
                 startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 finish();
             }
-
         }
     }
+
+    // Method to redirect the user based on BMI
+    private void redirectToNextActivity(float bmi) {
+        Intent intent;
+        if (bmi < 18.5) {
+            intent = new Intent(Login.this, UnderWeight.class);
+        } else if (bmi < 24.9) {
+            intent = new Intent(Login.this, normaldiet.class);
+        } else if (bmi < 29.9) {
+            intent = new Intent(Login.this, Bmi.class);
+        } else if (bmi < 34.9) {
+            intent = new Intent(Login.this, Bmi.class);
+        } else {
+            intent = new Intent(Login.this, Bmi.class);
+        }
+        startActivity(intent);
+        finish();
+    }
+
 
 
 
@@ -121,6 +125,7 @@ public class Login extends AppCompatActivity {
                 String email = editTextEmail.getText().toString(); // Retrieve email from TextInputEditText
                 String password = editTextPassword.getText().toString();
 
+
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(Login.this, "Enter email", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
@@ -140,7 +145,7 @@ public class Login extends AppCompatActivity {
                                 progressBar.setVisibility(View.GONE);
                                 if (task.isSuccessful()) {
                                     Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(Login.this, Bmi.class);
+                                    Intent intent = new Intent(Login.this, bmiactivity.class);
                                     intent.putExtra("email", email); // Pass email to bmiactivity
                                     startActivity(intent);
                                     finish();

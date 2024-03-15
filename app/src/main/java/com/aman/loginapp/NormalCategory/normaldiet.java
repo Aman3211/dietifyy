@@ -20,18 +20,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.aman.loginapp.R;
+import com.aman.loginapp.Login_RegisterBmi.Login;
+import com.aman.loginapp.Login_RegisterBmi.bmiactivity;
 import com.aman.loginapp.NormalBreakfast.breakfast;
 import com.aman.loginapp.NormalLunch.lunch;
 import com.aman.loginapp.NormalPostworkout.postworkout;
 import com.aman.loginapp.NormalPreworkout.preworkout;
+import com.aman.loginapp.Profile;
+import com.aman.loginapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.aman.loginapp.Login_RegisterBmi.Bmi;
-import com.aman.loginapp.Login_RegisterBmi.Login;
 
 public class normaldiet extends AppCompatActivity {
 
@@ -160,13 +160,25 @@ public class normaldiet extends AppCompatActivity {
         } else if (itemId == R.id.RecalculateBmi) {
             recalculateBMI();
             return true;
+        }
+            else if (itemId == R.id.bmiresult) {
+                bmiresult();
+                return true;
+
         } else {
             return super.onOptionsItemSelected(item);
         }
     }
 
+    public void bmiresult() {
+        Intent intent = new Intent(this, bmiactivity.class);
+        intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
+
     public void recalculateBMI() {
-        Intent intent = new Intent(this, Bmi.class);
+        Intent intent = new Intent(this, Profile.class);
         intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
