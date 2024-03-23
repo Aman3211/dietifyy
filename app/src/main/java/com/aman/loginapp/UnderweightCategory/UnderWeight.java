@@ -22,7 +22,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aman.loginapp.Login_RegisterBmi.Bmi;
 import com.aman.loginapp.Login_RegisterBmi.Login;
+import com.aman.loginapp.Login_RegisterBmi.bmiactivity;
 import com.aman.loginapp.NormalPostworkout.postworkout;
+import com.aman.loginapp.Profile;
 import com.aman.loginapp.R;
 import com.aman.loginapp.UnderweightBreakfast.UWbreakfast;
 import com.aman.loginapp.UnderweightLunch.UWlunch;
@@ -159,9 +161,33 @@ public class UnderWeight extends AppCompatActivity {
         } else if (itemId == R.id.RecalculateBmi) {
             recalculateBMI();
             return true;
-        } else {
+        }
+        else if (itemId == R.id.bmiresult) {
+            bmiresult();
+            return true;
+
+        } else if (itemId == R.id.Profile) {
+            profile();
+            return true;
+
+        }
+        else {
             return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void profile() {
+        Intent intent = new Intent(this, Profile.class);
+        intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    public void bmiresult() {
+        Intent intent = new Intent(this, bmiactivity.class);
+        intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 
     public void recalculateBMI() {

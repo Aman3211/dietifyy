@@ -49,7 +49,11 @@ public class bmiactivity extends AppCompatActivity {
     float intbmi;
 
     String height;
+    String gender;
+    String age;
     String weight;
+    String email;
+    String  username;
     float intheight,intweight;
     RelativeLayout mbackground;
 
@@ -114,9 +118,6 @@ public class bmiactivity extends AppCompatActivity {
 
 
 
-
-
-
         getSupportActionBar().setElevation(0);
         getSupportActionBar().setTitle(Html.fromHtml("<font color=\"white\"></font>"));
         getSupportActionBar().setTitle("Result");
@@ -128,6 +129,8 @@ public class bmiactivity extends AppCompatActivity {
         intent=getIntent();
         height = intent.getStringExtra("height");
         weight = intent.getStringExtra("weight");
+
+
         mbmidisplay=findViewById(R.id.bmidisplay);
         mbmicategory=findViewById(R.id.bmicategory);
         mgender=findViewById(R.id.genderdisplay);
@@ -141,10 +144,12 @@ public class bmiactivity extends AppCompatActivity {
         OverWdietbutton=findViewById(R.id.OverWdietbutton);
 
 
-
-
+        gender = intent.getStringExtra("gender");
+        age = intent.getStringExtra("age");
         height = intent.getStringExtra("height");
         weight = intent.getStringExtra("weight");
+        email = intent.getStringExtra("email");
+        username = intent.getStringExtra("username");
 
         if (height != null && weight != null) {
             intheight = Float.parseFloat(height) / 100; // Convert cm to meters
@@ -159,11 +164,8 @@ public class bmiactivity extends AppCompatActivity {
             // Handle the case where height or weight is null
         }
 
-// Start activity after setting mbmi
-        Intent intent = new Intent(bmiactivity.this, Login.class);
-        intent.putExtra("bmi", mbmi);
-        startActivity(intent);
-        finish();
+
+
 
 
 
@@ -172,8 +174,7 @@ public class bmiactivity extends AppCompatActivity {
             mbmicategory.setText("Under Weight  (<18.5)");
           //  mbackground.setBackgroundColor(Color.BLUE);
 
-            startActivity(intent);
-            finish();
+
             mimageview.setImageResource(R.drawable.crosss);
             Normaldietbutton.setVisibility(View.GONE);
             EObsedietbutton.setVisibility(View.GONE);
@@ -188,8 +189,7 @@ public class bmiactivity extends AppCompatActivity {
 
          //   mbackground.setBackgroundColor(Color.GREEN);
 
-            startActivity(intent);
-            finish();
+
             mimageview.setImageResource(R.drawable.ok);
             Obsedietbutton.setVisibility(View.GONE);
             Normaldietbutton.setVisibility(View.VISIBLE);
@@ -242,6 +242,13 @@ public class bmiactivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent= new Intent(bmiactivity.this, normaldiet.class);
+                intent.putExtra("bmi",mbmi);
+                intent.putExtra("height",height);
+                intent.putExtra("weight",weight);
+                intent.putExtra("age",age);
+                intent.putExtra("gender",gender);
+                intent.putExtra("email",email);
+                intent.putExtra("username",username);
                 startActivity(intent);
                 finish();
             }
@@ -288,6 +295,8 @@ public class bmiactivity extends AppCompatActivity {
 
         saveBmiData(mbmi);
     }
+
+
 
 
 
@@ -354,17 +363,23 @@ public class bmiactivity extends AppCompatActivity {
 
     public void recalculateBMI() {
         Intent intent = getIntent();
-        if (intent != null && intent.hasExtra("bmi")) {
-            String bmi = intent.getStringExtra("bmi");
+        if (intent != null && intent.hasExtra("height") && intent.hasExtra("weight") && intent.hasExtra("gender")) {
+            String height = intent.getStringExtra("height");
+            String weight = intent.getStringExtra("weight");
+            String gender = intent.getStringExtra("gender");
+
             Intent newIntent = new Intent(this, Bmi.class);
-            newIntent.putExtra("bmi", bmi);
+            newIntent.putExtra("height", height);
+            newIntent.putExtra("weight", weight);
+            newIntent.putExtra("gender", gender);
             newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(newIntent);
             finish();
         } else {
-            Log.e("bmiactivity", "No BMI value found in intent extras");
+            Log.e("bmiactivity", "Height, weight, or gender value not found in intent extras");
         }
     }
+
 
 
 
@@ -378,6 +393,10 @@ public class bmiactivity extends AppCompatActivity {
         Log.d("Logout", "Logging out and going to login page");
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(this, Login.class);
+        intent.putExtra("bmi", mbmi);
+        startActivity(intent);
+        finish();
+
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();

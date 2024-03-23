@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.aman.loginapp.Login_RegisterBmi.Bmi;
 import com.aman.loginapp.Login_RegisterBmi.Login;
 import com.aman.loginapp.Login_RegisterBmi.bmiactivity;
 import com.aman.loginapp.NormalBreakfast.breakfast;
@@ -37,11 +38,23 @@ public class normaldiet extends AppCompatActivity {
 
     private RecyclerView recyclerViewDietPlan;
     private FoodListAdapter foodListAdapter;
+    private String mbmi,height,weight,age,gender,email,username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_normaldiet);
+
+
+
+      Intent  intent=getIntent();
+         mbmi = intent.getStringExtra("bmi");
+        height = intent.getStringExtra("height");
+        weight = intent.getStringExtra("weight");
+        age = intent.getStringExtra("age");
+        gender = intent.getStringExtra("gender");
+        email = intent.getStringExtra("email");
+        username = intent.getStringExtra("username");
 
 
 
@@ -120,6 +133,8 @@ public class normaldiet extends AppCompatActivity {
         }
     }
 
+
+
     private static class DietCategory {
         private String name;
         private int imageResource;
@@ -165,20 +180,40 @@ public class normaldiet extends AppCompatActivity {
                 bmiresult();
                 return true;
 
-        } else {
+        } else if (itemId == R.id.Profile) {
+            profile();
+            return true;
+
+        }
+            else {
             return super.onOptionsItemSelected(item);
         }
     }
 
-    public void bmiresult() {
+    public void profile() {
+        // Assuming this code is inside a method where you navigate to the Profile activity
+        Intent intent = new Intent(normaldiet.this, Profile.class);
+        intent.putExtra("height", height); // Replace height, weight, gender, age, bmi, and email with your actual data
+        intent.putExtra("weight", weight);
+        intent.putExtra("gender", gender);
+        intent.putExtra("age", age);
+        intent.putExtra("bmi", mbmi);
+        intent.putExtra("email", email);
+        intent.putExtra("username", username);
+        startActivity(intent);
+    }
+
+
+        public void bmiresult() {
         Intent intent = new Intent(this, bmiactivity.class);
+        intent.putExtra("bmi", mbmi);
         intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
     }
 
     public void recalculateBMI() {
-        Intent intent = new Intent(this, Profile.class);
+        Intent intent = new Intent(this, Bmi.class);
         intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();

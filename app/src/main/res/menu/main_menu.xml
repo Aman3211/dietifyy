@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-
+    <item
+        android:id="@+id/Profile"
+        android:title="Profile"/>
     <item
         android:id="@+id/RecalculateBmi"
         android:title="ReCalculate Bmi"/>
     <item
-        android:id="@+id/logout"
-        android:title="Logout"/>
-    <item
         android:id="@+id/bmiresult"
         android:title="Bmi Result"/>
+    <item
+        android:id="@+id/logout"
+        android:title="Logout"/>
 
 </menu>

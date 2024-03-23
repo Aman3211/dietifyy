@@ -41,6 +41,8 @@ public class Bmi extends AppCompatActivity {
     String weight2="55";
     String height2="170";
     String age2="22";
+    String email;
+    String username;
 
 
     @Override
@@ -48,9 +50,11 @@ public class Bmi extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bmi);
 
-        // Retrieve BMI value passed from bmiactivity
-        Intent intent = getIntent();
-        String bmiValue = intent.getStringExtra("bmi");
+
+       Intent intent=getIntent();
+        email = intent.getStringExtra("email");
+        username = intent.getStringExtra("username");
+
 
 
         getSupportActionBar().hide();
@@ -210,13 +214,19 @@ public class Bmi extends AppCompatActivity {
                 }
                 else
                 {
+                    Intent intent= new Intent(Bmi.this, bmiactivity.class);
                     intent.putExtra("gender",typeofuser);
                     intent.putExtra("height",mintprogress);
                     intent.putExtra("weight",weight2);
                     intent.putExtra("age",age2);
-                    intent.putExtra("bmi", bmiValue);
+                    intent.putExtra("email",email);
+                    intent.putExtra("username",username);
 
-                    Intent intent= new Intent(Bmi.this, bmiactivity.class);
+
+
+
+
+
 
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

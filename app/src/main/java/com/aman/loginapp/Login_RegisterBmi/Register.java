@@ -18,27 +18,16 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class Register extends AppCompatActivity {
 
-
-    TextInputEditText editTextEmail,editTextPassword;
+    TextInputEditText editTextEmail;
+    TextInputEditText editTextPassword;
+    TextInputEditText username;
     Button buttonReg;
     FirebaseAuth mAuth;
     ProgressBar progressBar;
     TextView textView;
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            Intent intent =new Intent(getApplicationContext(), Login.class);
-            startActivity(intent);
-            finish();
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,32 +35,29 @@ public class Register extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         mAuth = FirebaseAuth.getInstance();
+        username = findViewById(R.id.username);
         editTextEmail = findViewById(R.id.email);
         editTextPassword = findViewById(R.id.password);
         buttonReg = findViewById(R.id.btn_Register);
         progressBar = findViewById(R.id.progressBar);
         textView = findViewById(R.id.Registernow);
         textView.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-
-
-
+            @Override
+            public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), Login.class);
-            startActivity(intent);
-            finish();
-        }
+                startActivity(intent);
+                finish();
+            }
         });
 
         buttonReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 progressBar.setVisibility(View.VISIBLE);
-                String email, password;
+                String email, password, userName;
                 email = String.valueOf(editTextEmail.getText());
                 password = String.valueOf(editTextPassword.getText());
+                userName = String.valueOf(username.getText());
 
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(Register.this, "Enter email", Toast.LENGTH_SHORT).show();
@@ -83,36 +69,26 @@ public class Register extends AppCompatActivity {
                     return;
                 }
 
+                // Sign out the user if already signed in
+                mAuth.signOut();
+
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-
-
                                 progressBar.setVisibility(View.GONE);
                                 if (task.isSuccessful()) {
-
-                                    Toast.makeText(Register.this, "Account created.",
-                                            Toast.LENGTH_SHORT).show();
-
+                                    Toast.makeText(Register.this, "Account created.", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(getApplicationContext(), Login.class);
+                                    intent.putExtra("username", userName);
                                     startActivity(intent);
                                     finish();
-
                                 } else {
-
-
-                                    Toast.makeText(Register.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
-
+                                    Toast.makeText(Register.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
             }
         });
-
-
     }
 }
-
-
