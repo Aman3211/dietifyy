@@ -1,5 +1,4 @@
-package com.aman.loginapp.NormalPostworkout;
-
+package com.aman.loginapp.NormalPreworkout;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -16,11 +15,11 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-public class postworkoutAdapter extends RecyclerView.Adapter<postworkoutAdapter.ViewHolder> {
-    private List<postworkoutItem> itemList;
+public class preworkoutAdapter extends RecyclerView.Adapter<preworkoutAdapter.ViewHolder> {
+    private List<preworkoutItem> itemList;
     private Context context;
 
-    public postworkoutAdapter(Context context, List<postworkoutItem> itemList) {
+    public preworkoutAdapter(Context context, List<preworkoutItem> itemList) {
         this.context = context;
         this.itemList = itemList;
     }
@@ -28,13 +27,13 @@ public class postworkoutAdapter extends RecyclerView.Adapter<postworkoutAdapter.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.postworkout_rv, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.preworkout_rv, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        postworkoutItem item = itemList.get(position);
+        preworkoutItem item = itemList.get(position);
         holder.bind(item);
 
         // Set OnClickListener for the forward ImageView
@@ -42,8 +41,8 @@ public class postworkoutAdapter extends RecyclerView.Adapter<postworkoutAdapter.
             @Override
             public void onClick(View view) {
                 // Handle click event for the forward ImageView
-                // For example, navigate to postworkoutdetail activity with data
-                Intent intent = new Intent(context, postworkoutdetail.class);
+                // For example, navigate to lunchdetail activity with data
+                Intent intent = new Intent(context, preworkoutdetail.class);
                 // Put the image URL and title as extras
                 intent.putExtra("imageUrl", item.getImageUrl());
                 intent.putExtra("itemName", item.getItemName());
@@ -65,20 +64,20 @@ public class postworkoutAdapter extends RecyclerView.Adapter<postworkoutAdapter.
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.postworkoutimg);
-            textView = itemView.findViewById(R.id.postworkouttitle);
-            forward = itemView.findViewById(R.id.postworkoutforward);
+            imageView = itemView.findViewById(R.id.preworkoutimg);
+            textView = itemView.findViewById(R.id.preworkouttitle);
+            forward = itemView.findViewById(R.id.preworkoutforward);
         }
 
-        public void bind(postworkoutItem item) {
+
+        public void bind(preworkoutItem item) {
             Glide.with(itemView.getContext())
                     .load(item.getImageUrl())
-                    .placeholder(R.drawable.postworkout) // Optional placeholder image
-                    .error(R.drawable.postworkout) // Optional error image
+                    .placeholder(R.drawable.preworkout) // Optional placeholder image
+                    .error(R.drawable.preworkout) // Optional error image
                     .into(imageView);
 
             textView.setText(item.getItemName());
         }
     }
 }
-

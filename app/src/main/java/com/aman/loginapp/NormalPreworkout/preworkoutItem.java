@@ -1,25 +1,23 @@
-package com.aman.loginapp.NormalBreakfast;
-
-// Model class for your data
-public class BreakfastItem {
+package com.aman.loginapp.NormalPreworkout;
+public class preworkoutItem {
     private String itemName;
     private String imageUrl;
     private String itemId;
 
-    public BreakfastItem() {
+    public preworkoutItem() {
         // Required empty public constructor
     }
 
-    public BreakfastItem(String itemName, String imageUrl, String itemId) {
+    public preworkoutItem(String itemName, String imageUrl, String itemId) {
         this.itemName = itemName;
         this.imageUrl = imageUrl;
         this.itemId = itemId;
-
     }
 
     public String getItemId() {
         return itemId;
     }
+
     public String getItemName() {
         return itemName;
     }

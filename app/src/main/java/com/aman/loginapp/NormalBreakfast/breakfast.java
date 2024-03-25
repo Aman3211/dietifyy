@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.aman.loginapp.NormalCategory.normaldiet;
 import com.aman.loginapp.R;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -18,8 +19,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.aman.loginapp.NormalCategory.normaldiet;
 
 public class breakfast extends AppCompatActivity {
 
@@ -55,8 +54,9 @@ public class breakfast extends AppCompatActivity {
                         // Assuming your Firestore document fields are "itemName" and "imageUrl"
                         String itemName = document.getString("itemName");
                         String imageUrl = document.getString("imageUrl");
+                            String itemId = document.getId();
 
-                            BreakfastItem item = new BreakfastItem(itemName, imageUrl);
+                            BreakfastItem item = new BreakfastItem(itemName, imageUrl,itemId);
                         itemList.add(item);
                     }
 

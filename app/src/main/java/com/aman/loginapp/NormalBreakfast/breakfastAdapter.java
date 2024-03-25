@@ -51,6 +51,7 @@ public class breakfastAdapter extends RecyclerView.Adapter<breakfastAdapter.View
             // Put the image URL and title as extras
             intent.putExtra("imageUrl", item.getImageUrl());
             intent.putExtra("itemName", item.getItemName());
+            intent.putExtra("itemId", item.getItemId());
             context.startActivity(intent);
         }
     });

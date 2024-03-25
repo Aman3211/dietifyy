@@ -9,8 +9,10 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.aman.loginapp.NormalCategory.normaldiet;
 
 public class Profile extends AppCompatActivity {
@@ -38,6 +40,7 @@ public class Profile extends AppCompatActivity {
 
         if (intent != null && intent.hasExtra("height")) {
             // Data passed via intent
+
             height = intent.getStringExtra("height");
             weight = intent.getStringExtra("weight");
             gender = intent.getStringExtra("gender");
@@ -45,6 +48,12 @@ public class Profile extends AppCompatActivity {
             age = intent.getStringExtra("age");
             bmi = intent.getStringExtra("bmi");
             email = intent.getStringExtra("email");
+
+
+
+
+
+
         } else {
             // If intent is null or data is not passed, retrieve data from SharedPreferences
             height = loadUserData(KEY_HEIGHT);
@@ -64,7 +73,7 @@ public class Profile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d("Profile", "Back button clicked");
-                Intent intent = new Intent(Profile.this, normaldiet.class);
+                Intent intent = new Intent(getApplicationContext(), normaldiet.class);
                 startActivity(intent);
                 finish();
             }
@@ -100,6 +109,10 @@ public class Profile extends AppCompatActivity {
         TextView bmiTextView = findViewById(R.id.bmirs);
         TextView ageTextView = findViewById(R.id.agers);
         TextView usernameTextView = findViewById(R.id.username);
+        TextView caloriers = findViewById(R.id.caloriers); // Assuming these are the TextViews for nutrient information
+        TextView protienrs = findViewById(R.id.protienrs);
+        TextView carbsrs = findViewById(R.id.carbsrs);
+        TextView fatrs = findViewById(R.id.fatrs);
 
         emailTextView.setText(email);
         heightTextView.setText(height);
@@ -109,8 +122,42 @@ public class Profile extends AppCompatActivity {
         bmiTextView.setText(bmi);
         usernameTextView.setText(username);
 
-        Log.d("Profile", "Displayed user data: Height=" + height + ", Weight=" + weight + ", Gender=" + gender
-                + ", Age=" + age + ", BMI=" + bmi + ", Email=" + email);
+        Intent intent = getIntent();
+        String category = intent.getStringExtra("category");
+        if (category != null) {
+            if (category.equals("normaldiet")) {
+                if (gender.equalsIgnoreCase("male")) {
+                    // Set nutrient information for male
+                    caloriers.setText("2500kcal");
+                    protienrs.setText("80g");
+                    carbsrs.setText("150g");
+                    fatrs.setText("70g");
+                } else if (gender.equalsIgnoreCase("female")) {
+                    // Set nutrient information for female
+                    caloriers.setText("2000kcal");
+                    protienrs.setText("60g");
+                    carbsrs.setText("120g");
+                    fatrs.setText("50g");
+                }
+            } else if (category.equals("UnderWeight")) {
+                if (gender.equalsIgnoreCase("male")) {
+                    // Set nutrient information for male
+                    caloriers.setText("3500kcal");
+                    protienrs.setText("100g");
+                    carbsrs.setText("180g");
+                    fatrs.setText("80g");
+                } else if (gender.equalsIgnoreCase("female")) {
+                    // Set nutrient information for female
+                    caloriers.setText("3000kcal");
+                    protienrs.setText("80g");
+                    carbsrs.setText("140g");
+                    fatrs.setText("60g");
+                }
+            }
+
+            Log.d("Profile", "Displayed user data: Height=" + height + ", Weight=" + weight + ", Gender=" + gender
+                    + ", Age=" + age + ", BMI=" + bmi + ", Email=" + email);
+        }
     }
 
     private void hideActionBar() {

@@ -109,7 +109,9 @@ public class Login extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if (currentUser != null) {
+            
             // User is already authenticated, do nothing or redirect to another activity if needed
         }
+
     }
 }

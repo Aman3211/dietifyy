@@ -54,8 +54,9 @@ public class preworkout extends AppCompatActivity {
                             // Assuming your Firestore document fields are "itemName" and "imageUrl"
                             String itemName = document.getString("itemName");
                             String imageUrl = document.getString("imageUrl");
+                            String itemId = document.getId();
 
-                            preworkoutItem item = new preworkoutItem(itemName, imageUrl);
+                            preworkoutItem item = new preworkoutItem(itemName, imageUrl,itemId);
                             itemList.add(item);
                         }
 

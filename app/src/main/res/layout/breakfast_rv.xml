@@ -28,23 +28,27 @@
             android:src="@drawable/pizza_sample" />
     </androidx.cardview.widget.CardView>
 
+
     <TextView
         android:id="@+id/breakfasttitle"
-        android:layout_width="135dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="-20dp"
-        android:textStyle="bold"
-        android:maxLength="40"
-        android:textColor="@color/black"
-        android:textSize="16sp"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
         android:fontFamily="@font/poppinssemibold"
-
-        android:maxLines="2"
+        android:maxLength="40"
+        android:maxLines="1"
+        android:singleLine="true"
         android:text="Sample Text is here"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/breakfastcardView"
         app:layout_constraintStart_toEndOf="@+id/breakfastcardView"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.395" />
+
 
     <ImageView
         android:id="@+id/breakfastforward"

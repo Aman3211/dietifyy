@@ -23,6 +23,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class lunchdetail extends AppCompatActivity {
 
     private boolean isUp = false;
@@ -125,42 +128,9 @@ public class lunchdetail extends AppCompatActivity {
         });
     }
 
-        private void fetchNutrientsData(String itemId) {
-        // Retrieve itemId from intent extras
-
-
-        // Check if itemId is not null
+    private void fetchNutrientsData(String itemId) {
         if (itemId != null) {
-            db.collection("lunchitem")
-                    .document(itemId) // Pass the itemId here
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
-                                    String nutrientinfo = document.getString("nutrientinfo");
-                                    nutrientsInfoTextView.setText(nutrientinfo);
-                                } else {
-                                    Log.d(TAG, "No such document");
-                                }
-                            } else {
-                                Log.d(TAG, "get failed with ", task.getException());
-                            }
-                        }
-                    });
-        } else {
-            Log.e(TAG, "itemId is null");
-        }
-    }
-
-
-
-    private void fetchItemInfoData(String itemId) {
-        // Check if itemId is not null
-        if (itemId != null) {
-            db.collection("lunchitem")
+            db.collection("breakfastitem")
                     .document(itemId)
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -169,8 +139,21 @@ public class lunchdetail extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 DocumentSnapshot document = task.getResult();
                                 if (document.exists()) {
-                                    String iteminfo = document.getString("iteminfo");
-                                    itemInfoTextView.setText(iteminfo);
+                                    // Retrieve iteminfo as a List of Objects
+                                    List<Object> itemList = (List<Object>) document.get("nutrientinfo");
+                                    List<String> itemArray = new ArrayList<>();
+
+                                    // Convert each object in the list to a string
+                                    for (Object obj : itemList) {
+                                        itemArray.add(String.valueOf(obj));
+                                    }
+
+                                    // Display itemArray in TextView
+                                    StringBuilder nutrientInfoText = new StringBuilder();
+                                    for (String item : itemArray) {
+                                        nutrientInfoText.append("✔  ").append(item).append("\n");
+                                    }
+                                    nutrientsInfoTextView.setText(nutrientInfoText.toString());
                                 } else {
                                     Log.d(TAG, "No such document");
                                 }
@@ -183,6 +166,46 @@ public class lunchdetail extends AppCompatActivity {
             Log.e(TAG, "itemId is null");
         }
     }
+
+    private void fetchItemInfoData(String itemId) {
+        if (itemId != null) {
+            db.collection("breakfastitem")
+                    .document(itemId)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    // Retrieve iteminfo as a List of Objects
+                                    List<Object> itemList = (List<Object>) document.get("iteminfo");
+                                    List<String> itemArray = new ArrayList<>();
+
+                                    // Convert each object in the list to a string
+                                    for (Object obj : itemList) {
+                                        itemArray.add(String.valueOf(obj));
+                                    }
+
+                                    // Display itemArray in TextView
+                                    StringBuilder itemInfoText = new StringBuilder();
+                                    for (String item : itemArray) {
+                                        itemInfoText.append("✔  ").append(item).append("\n");
+                                    }
+                                    itemInfoTextView.setText(itemInfoText.toString());
+                                } else {
+                                    Log.d(TAG, "No such document");
+                                }
+                            } else {
+                                Log.d(TAG, "get failed with ", task.getException());
+                            }
+                        }
+                    });
+        } else {
+            Log.e(TAG, "itemId is null");
+        }
+    }
+
 
 
     private void animateViews(float distanceToMove) {
@@ -225,6 +248,10 @@ public class lunchdetail extends AppCompatActivity {
     }
 
     private void toggleNutrientInfoVisibility() {
+        // Hide the item info text and set its visibility flag to false
+        itemInfoTextView.setVisibility(View.GONE);
+        isItemInfoVisible = false;
+
         if (isNutrientInfoVisible) {
             // Hide the nutrient info
             nutrientsInfoTextView.setVisibility(View.GONE);
@@ -235,7 +262,12 @@ public class lunchdetail extends AppCompatActivity {
             isNutrientInfoVisible = true;
         }
     }
+
     private void toggleItemInfoVisibility() {
+        // Hide the nutrient info text and set its visibility flag to false
+        nutrientsInfoTextView.setVisibility(View.GONE);
+        isNutrientInfoVisible = false;
+
         if (isItemInfoVisible) {
             // Hide the item info
             itemInfoTextView.setVisibility(View.GONE);
@@ -246,6 +278,7 @@ public class lunchdetail extends AppCompatActivity {
             isItemInfoVisible = true;
         }
     }
+
 
     private void hideActionBar() {
         // Get the support action bar

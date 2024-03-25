@@ -1,6 +1,7 @@
 package com.aman.loginapp.NormalCategory;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -46,6 +47,13 @@ public class normaldiet extends AppCompatActivity {
         setContentView(R.layout.activity_normaldiet);
 
 
+// Inside onCreate() method
+        SharedPreferences sharedPreferences = getSharedPreferences("BMI_PREFS", MODE_PRIVATE);
+         mbmi = sharedPreferences.getString("bmi", "0"); // Default value "0" if not found
+
+
+
+
 
       Intent  intent=getIntent();
          mbmi = intent.getStringExtra("bmi");
@@ -81,7 +89,15 @@ public class normaldiet extends AppCompatActivity {
 
         foodListAdapter = new FoodListAdapter(dietCategories);
         recyclerViewDietPlan.setAdapter(foodListAdapter);
+
+        mbmi = getStoredBmi();
     }
+    private String getStoredBmi() {
+        SharedPreferences sharedPreferences = getSharedPreferences("BMI_DATA", MODE_PRIVATE);
+        String bmi = sharedPreferences.getString("bmi", null); // Default value is null
+        return bmi;
+    }
+
 
     private static class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.ViewHolder> {
 
@@ -200,17 +216,19 @@ public class normaldiet extends AppCompatActivity {
         intent.putExtra("bmi", mbmi);
         intent.putExtra("email", email);
         intent.putExtra("username", username);
+        intent.putExtra("category", "normaldiet");
         startActivity(intent);
     }
 
 
-        public void bmiresult() {
+    public void bmiresult() {
         Intent intent = new Intent(this, bmiactivity.class);
-        intent.putExtra("bmi", mbmi);
-        intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("bmi", mbmi); // Add the BMI extra to the intent
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
     }
+
 
     public void recalculateBMI() {
         Intent intent = new Intent(this, Bmi.class);

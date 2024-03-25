@@ -38,11 +38,25 @@ public class UnderWeight extends AppCompatActivity {
 
     private RecyclerView UWrecyclerViewDietPlan;
     private UnderWeightAdapter underWeightAdapter;
+    private String mbmi,height,weight,age,gender,email,username;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_under_weight);
+
+
+
+        Intent  intent=getIntent();
+        mbmi = intent.getStringExtra("bmi");
+        height = intent.getStringExtra("height");
+        weight = intent.getStringExtra("weight");
+        age = intent.getStringExtra("age");
+        gender = intent.getStringExtra("gender");
+        email = intent.getStringExtra("email");
+        username = intent.getStringExtra("username");
 
 
 
@@ -179,6 +193,14 @@ public class UnderWeight extends AppCompatActivity {
     public void profile() {
         Intent intent = new Intent(this, Profile.class);
         intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("height", height); // Replace height, weight, gender, age, bmi, and email with your actual data
+        intent.putExtra("weight", weight);
+        intent.putExtra("gender", gender);
+        intent.putExtra("age", age);
+        intent.putExtra("bmi", mbmi);
+        intent.putExtra("email", email);
+        intent.putExtra("username", username);
+        intent.putExtra("category", "UnderWeight");
         startActivity(intent);
         finish();
     }

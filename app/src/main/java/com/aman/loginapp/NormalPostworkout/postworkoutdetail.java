@@ -1,8 +1,11 @@
 package com.aman.loginapp.NormalPostworkout;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -11,19 +14,32 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.aman.loginapp.R;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class postworkoutdetail extends AppCompatActivity {
 
     private boolean isUp = false;
+    private boolean isItemInfoVisible = false;
+    private boolean isNutrientInfoVisible = false;
+    private TextView nutrientsInfoTextView;
+    private TextView itemInfoTextView;
     private ImageView itemImageView;
     private ImageView upwardImageView;
     private ImageView downwardImageView;
     private View relativeLayout;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,20 +49,23 @@ public class postworkoutdetail extends AppCompatActivity {
         hideNavigationBar();
         hideActionBar();
 
+        db = FirebaseFirestore.getInstance();
+
         // Retrieve extras passed from lunchAdapter
         Intent intent = getIntent();
         String imageUrl = intent.getStringExtra("imageUrl");
         String itemName = intent.getStringExtra("itemName");
+        String itemId = getIntent().getStringExtra("itemId");
 
         // Find views in your lunchdetail layout
         itemImageView = findViewById(R.id.postworkoutitem_img);
         TextView postworkoutTitleTextView = findViewById(R.id.postworkout_title);
         Button nutrientsButton = findViewById(R.id.postworkoutnutrients);
         ScrollView nutrientsScrollView = findViewById(R.id.postworkoutnutrientsscrollv);
-        TextView nutrientsInfoTextView = findViewById(R.id.postworkoutnutrients_info);
+        nutrientsInfoTextView = findViewById(R.id.postworkoutnutrients_info);
         Button itemInfoButton = findViewById(R.id.postworkoutiteminfo);
         ScrollView itemInfoScrollView = findViewById(R.id.postworkoutiteminfoscrollv);
-        TextView itemInfoTextView = findViewById(R.id.postworkoutitem_info);
+         itemInfoTextView = findViewById(R.id.postworkoutitem_info);
         upwardImageView = findViewById(R.id.postworkoutupward);
         downwardImageView = findViewById(R.id.postworkoutdownward);
         relativeLayout = findViewById(R.id.postworkoutrelativeLayout);
@@ -89,12 +108,9 @@ public class postworkoutdetail extends AppCompatActivity {
         nutrientsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (nutrientsScrollView.getVisibility() == View.VISIBLE) {
-                    nutrientsScrollView.setVisibility(View.GONE);
-                } else {
-                    nutrientsScrollView.setVisibility(View.VISIBLE);
-                    nutrientsInfoTextView.setText("Your nutrients information goes here");
-                }
+                // Fetch nutrient data for the current item
+                fetchNutrientsData(itemId);
+                toggleNutrientInfoVisibility();
             }
         });
 
@@ -102,14 +118,90 @@ public class postworkoutdetail extends AppCompatActivity {
         itemInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (itemInfoScrollView.getVisibility() == View.VISIBLE) {
-                    itemInfoScrollView.setVisibility(View.GONE);
-                } else {
-                    itemInfoScrollView.setVisibility(View.VISIBLE);
-                    itemInfoTextView.setText("Your item information goes here");
-                }
+                Log.d(TAG, "Item Info Button Clicked");
+                // Fetch item info data for the current item
+                fetchItemInfoData(itemId);
+                toggleItemInfoVisibility();
             }
         });
+    }
+
+    private void fetchNutrientsData(String itemId) {
+        if (itemId != null) {
+            db.collection("postworkoutitem")
+                    .document(itemId)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    // Retrieve iteminfo as a List of Objects
+                                    List<Object> itemList = (List<Object>) document.get("nutrientinfo");
+                                    List<String> itemArray = new ArrayList<>();
+
+                                    // Convert each object in the list to a string
+                                    for (Object obj : itemList) {
+                                        itemArray.add(String.valueOf(obj));
+                                    }
+
+                                    // Display itemArray in TextView
+                                    StringBuilder nutrientInfoText = new StringBuilder();
+                                    for (String item : itemArray) {
+                                        nutrientInfoText.append("✔  ").append(item).append("\n");
+                                    }
+                                    nutrientsInfoTextView.setText(nutrientInfoText.toString());
+                                } else {
+                                    Log.d(TAG, "No such document");
+                                }
+                            } else {
+                                Log.d(TAG, "get failed with ", task.getException());
+                            }
+                        }
+                    });
+        } else {
+            Log.e(TAG, "itemId is null");
+        }
+    }
+
+    private void fetchItemInfoData(String itemId) {
+        if (itemId != null) {
+            db.collection("postworkoutitem")
+                    .document(itemId)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    // Retrieve iteminfo as a List of Objects
+                                    List<Object> itemList = (List<Object>) document.get("iteminfo");
+                                    List<String> itemArray = new ArrayList<>();
+
+                                    // Convert each object in the list to a string
+                                    for (Object obj : itemList) {
+                                        itemArray.add(String.valueOf(obj));
+                                    }
+
+                                    // Display itemArray in TextView
+                                    StringBuilder itemInfoText = new StringBuilder();
+                                    for (String item : itemArray) {
+                                        itemInfoText.append("✔  ").append(item).append("\n");
+                                    }
+                                    itemInfoTextView.setText(itemInfoText.toString());
+                                } else {
+                                    Log.d(TAG, "No such document");
+                                }
+                            } else {
+                                Log.d(TAG, "get failed with ", task.getException());
+                            }
+                        }
+                    });
+        } else {
+            Log.e(TAG, "itemId is null");
+        }
     }
 
 
@@ -133,6 +225,8 @@ public class postworkoutdetail extends AppCompatActivity {
         downwardImageViewAnimator.start();
     }
 
+
+
     private void hideNavigationBar() {
         // Hide both the navigation bar and the status bar
         View decorView = getWindow().getDecorView();
@@ -155,6 +249,39 @@ public class postworkoutdetail extends AppCompatActivity {
         }
 
     }
+
+    private void toggleNutrientInfoVisibility() {
+        // Hide the item info text and set its visibility flag to false
+        itemInfoTextView.setVisibility(View.GONE);
+        isItemInfoVisible = false;
+
+        if (isNutrientInfoVisible) {
+            // Hide the nutrient info
+            nutrientsInfoTextView.setVisibility(View.GONE);
+            isNutrientInfoVisible = false;
+        } else {
+            // Show the nutrient info
+            nutrientsInfoTextView.setVisibility(View.VISIBLE);
+            isNutrientInfoVisible = true;
+        }
+    }
+
+    private void toggleItemInfoVisibility() {
+        // Hide the nutrient info text and set its visibility flag to false
+        nutrientsInfoTextView.setVisibility(View.GONE);
+        isNutrientInfoVisible = false;
+
+        if (isItemInfoVisible) {
+            // Hide the item info
+            itemInfoTextView.setVisibility(View.GONE);
+            isItemInfoVisible = false;
+        } else {
+            // Show the item info
+            itemInfoTextView.setVisibility(View.VISIBLE);
+            isItemInfoVisible = true;
+        }
+    }
+
     private void hideActionBar() {
         // Get the support action bar
         ActionBar actionBar = getSupportActionBar();

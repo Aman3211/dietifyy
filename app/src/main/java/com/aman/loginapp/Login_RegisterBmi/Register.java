@@ -61,16 +61,15 @@ public class Register extends AppCompatActivity {
 
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(Register.this, "Enter email", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
                     return;
                 }
 
                 if (TextUtils.isEmpty(password)) {
                     Toast.makeText(Register.this, "Enter password", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
                     return;
                 }
-
-                // Sign out the user if already signed in
-                mAuth.signOut();
 
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -82,7 +81,7 @@ public class Register extends AppCompatActivity {
                                     Intent intent = new Intent(getApplicationContext(), Login.class);
                                     intent.putExtra("username", userName);
                                     startActivity(intent);
-                                    finish();
+                                    finish(); // Finish the Register activity after starting the Login activity
                                 } else {
                                     Toast.makeText(Register.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                                 }
@@ -91,4 +90,4 @@ public class Register extends AppCompatActivity {
             }
         });
     }
-}
+    }

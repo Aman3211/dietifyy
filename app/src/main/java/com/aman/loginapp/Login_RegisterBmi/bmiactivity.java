@@ -1,6 +1,7 @@
 package com.aman.loginapp.Login_RegisterBmi;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -67,7 +68,20 @@ public class bmiactivity extends AppCompatActivity {
 
 
 
-            // Retrieve previous BMI from Firebase
+        // Inside onCreate() method
+        SharedPreferences sharedPreferences = getSharedPreferences("BMI_PREFS", MODE_PRIVATE);
+        String previousBmi = sharedPreferences.getString("bmi", "0"); // Default value "0" if not found
+
+// Display the previous BMI
+        TextView previousBmiTextView = findViewById(R.id.bmidisplay); // Change this to your actual TextView ID
+        previousBmiTextView.setText(String.format(Locale.getDefault(), "Previous BMI: %s", previousBmi));
+
+
+
+
+
+
+        // Retrieve previous BMI from Firebase
             String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
             if (userEmail != null) {
                 DatabaseReference userBmiRef = bmiDatabase.child(userEmail.replace(".", "dot")).child(getPreviousDate());
@@ -132,6 +146,7 @@ public class bmiactivity extends AppCompatActivity {
 
 
         mbmidisplay=findViewById(R.id.bmidisplay);
+        mbmidisplay.setText(mbmi);
         mbmicategory=findViewById(R.id.bmicategory);
         mgender=findViewById(R.id.genderdisplay);
         mbackground=findViewById(R.id.contentlayout);
@@ -150,6 +165,16 @@ public class bmiactivity extends AppCompatActivity {
         weight = intent.getStringExtra("weight");
         email = intent.getStringExtra("email");
         username = intent.getStringExtra("username");
+
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra("bmi")) {
+            mbmi = intent.getStringExtra("bmi");
+            // Display the BMI value
+            mbmidisplay.setText(mbmi);
+        } else {
+            Log.e("bmiactivity", "No BMI value found in intent extras");
+        }
+
 
         if (height != null && weight != null) {
             intheight = Float.parseFloat(height) / 100; // Convert cm to meters
@@ -258,6 +283,13 @@ public class bmiactivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent= new Intent(bmiactivity.this, UnderWeight.class);
+                intent.putExtra("bmi",mbmi);
+                intent.putExtra("height",height);
+                intent.putExtra("weight",weight);
+                intent.putExtra("age",age);
+                intent.putExtra("gender",gender);
+                intent.putExtra("email",email);
+                intent.putExtra("username",username);
                 startActivity(intent);
                 finish();
             }
@@ -300,12 +332,21 @@ public class bmiactivity extends AppCompatActivity {
 
 
 
-    private void saveBmiData(String bmi) {
+    private void saveBmiData(String mbmi) {
+        SharedPreferences sharedPreferences = getSharedPreferences("BMI_PREFS", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("bmi", mbmi); // Store BMI data
+        editor.apply(); // Apply changes
+
+
+
+
+
         String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         if (userEmail != null) {
             DatabaseReference userBmiRef = bmiDatabase.child(userEmail.replace(".", "dot")).child(getCurrentDate());
 
-            userBmiRef.child("bmi").setValue(bmi) // Store BMI data
+            userBmiRef.child("bmi").setValue(mbmi) // Store BMI data
                     .addOnSuccessListener(aVoid -> {
                         Log.d("Firebase", "BMI data saved successfully");
                     })
